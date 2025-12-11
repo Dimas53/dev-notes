@@ -1,0 +1,9 @@
+{
+  "name": "dev-notes",
+  "version": "1.0.0",
+  "description": "Personal dev notes and HTML templates",
+  "scripts": {
+    "update:index": "node generate-index.mjs"
+  },
+  "type": "module"
+}
