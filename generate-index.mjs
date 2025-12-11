@@ -25,7 +25,7 @@ const links =
         ? files
             .map((file) => {
                 const label = labelFromFile(file);
-                return `        <li><a href="${file}">${label}</a></li>`;
+                return `        <li><a href="${file}" target="_blank" rel="noopener noreferrer">${label}</a></li>`;
             })
             .join("\n")
         : '        <li>Пока нет ни одного HTML-файла.</li>';
@@ -89,8 +89,8 @@ const html = `<!doctype html>
 <body>
   <div class="container">
     <h1>Dev Notes</h1>
-    <p class="desc">HTML-шаблоны и конспекты. Выбери документ из списка ниже.</p>
-    <div class="file-count">Файлов: ${files.length}</div>
+    <p class="desc">HTML-Vorlagen und Notizen. Wähle ein Dokument aus der Liste unten</p>
+    <div class="file-count">Dateien: ${files.length}</div>
     <ul>
 ${links}
     </ul>
