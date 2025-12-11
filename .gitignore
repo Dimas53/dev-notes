@@ -1,0 +1,17 @@
+# WebStorm / IntelliJ IDEA
+.idea/
+*.iml
+workspace.xml
+tasks.xml
+modules.xml
+material_theme_*.xml
+vcs.xml
+
+# Node
+node_modules/
+
+# Logs
+*.log
+
+# Temp
+*.tmp

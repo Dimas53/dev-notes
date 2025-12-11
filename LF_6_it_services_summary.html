@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<title>LF6 IT-Service Management – Gesamt‑Konzept</title>
+<style>
+  :root { --ink:#222; --brand:#0b5cab; }
+  body { font-family: Arial, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, sans-serif; line-height: 1.6; margin: 36px; color: var(--ink); }
+  h1, h2, h3 { color: var(--brand); margin-top: 1.2em; }
+  h1 { border-bottom: 2px solid var(--brand); padding-bottom: 6px; }
+  section { margin-bottom: 36px; }
+  .toc li { margin: 4px 0; }
+  .muted { color:#555; }
+  ul { margin: 8px 0 0 18px; }
+  li { margin: 4px 0; }
+  .note { background:#f6fbff; border-left:4px solid var(--brand); padding:10px 12px; margin:12px 0; }
+  .kbd { padding:0 4px; border:1px solid #ccc; border-radius:4px; background:#fafafa; }
+</style>
+</head>
+<body>
+<h1>LF6 – IT‑Service Management (Zusammenfassung, Stand 27.10.2025)</h1>
+<p class="muted">Dieses Dokument bündelt alle prüfungsrelevanten Inhalte aus den Dateien <span class="kbd">01.01</span>, <span class="kbd">01.02</span>, <span class="kbd">01.03</span>, <span class="kbd">01.04</span> und <span class="kbd">02.01</span> (ohne 02.02). Fokus: verständliche Erklärungen + die wirklich wichtigen Punkte.</p>
+
+<section>
+<h2>Inhaltsübersicht</h2>
+<ol class="toc">
+  <li>01.01 – Services im IT‑Bereich unterscheiden</li>
+  <li>01.02 – Service‑Management‑Arten (ITSM)</li>
+  <li>01.03 – Standards und Rahmenwerke im IT‑Service</li>
+  <li>01.04 – Rechtliche Anforderungen im Servicebereich</li>
+  <li>02.01 – Prozess der Bearbeitung von Serviceanfragen</li>
+  <li>Zusatz – Service Catalogue Management</li>
+</ol>
+</section>
+
+<section>
+<h2>01.01 – Services im IT‑Bereich unterscheiden</h2>
+
+<h3>Grundlagen von IT‑Services</h3>
+<p>Ein IT‑Service ist eine Dienstleistung, die dem Kunden <em>Mehrwert</em> liefert, indem sie seine Ziele unterstützt. In den letzten Jahren steigt der Anteil der Service‑Erlöse stark; oft entsteht mehr Wertschöpfung durch Services als durch reine Hardware/Software. Unternehmen spezialisieren sich – niemand bietet alles an. Services werden u. a. danach unterschieden, <em>wo</em> sie gebraucht werden (Ort/Servicepunkt), in <em>w welcher Prozessphase</em>, an <em>welchen Objekten/Systemen</em> und mit <em>welchen Anforderungen</em>.</p>
+
+<h3>Service Level Agreement (SLA)</h3>
+<p>SLA = vertragliche Vereinbarung zwischen Kunde und Dienstleister. Inhalte sind <em>spezifisch und messbar</em> (SMART: spezifisch, messbar, erreichbar, realistisch, terminiert) – z. B. Geltungsbereich, Prioritäten, Verantwortlichkeiten, Garantien, Reaktions‑/Lösungszeiten. Intern sichern <em>OLA</em> (Operational Level Agreements) das Zusammenspiel zwischen Abteilungen, mit Dritten erfolgt dies über <em>Underpinning Contracts (UC)</em>.</p>
+
+<h3>Serviceportfolio & Servicekatalog, Service‑Desk</h3>
+<ul>
+  <li><strong>Serviceportfolio</strong>: Gesamtheit aller angebotenen Services des Anbieters.</li>
+  <li><strong>Servicekatalog</strong>: für Kunden lesbare Beschreibung einzelner Services (Leistungsumfang, Bedingungen, Zuständigkeiten, ggf. Preise).</li>
+  <li><strong>Service‑Desk</strong>: zentrale Anlaufstelle (User‑Helpdesk). Verfügbarkeiten werden oft als <em>24/7</em> (rund um die Uhr) oder <em>12/5</em> (werktags, 12h) angegeben.</li>
+</ul>
+
+<h3>IT‑Service‑Lifecycle (nach der Lernfolie)</h3>
+<p>Der Lebenszyklus beschreibt die Kette von der Beratung bis zur Kontrolle/Erneuerung:</p>
+<ul>
+  <li><u>Beratung</u>: Ist‑Analyse, Strategie, Konzepte, Sicherheits‑/Compliance‑Check, Wirtschaftlichkeit.</li>
+  <li><u>Beschaffung</u>: Anforderungen, Vertragsgestaltung, Ausschreibung/Angebotsbewertung, Bestellung, Warenannahme.</li>
+  <li><u>Bereitstellung</u>: Lieferung/Roll‑on, Konfiguration & Installation, Tests, Hosting/Cloud/Managed Services, Administration, Lizenzverwaltung, Abrechnung.</li>
+  <li><u>Einweisung/Schulung</u>: Vor‑Ort‑Einweisung, FAQs/Anleitungen, Trainings/Zertifizierungen.</li>
+  <li><u>Helpdesk/Servicedesk</u>: SLA‑Bearbeitung, (Remote‑)Wartung, Monitoring, Fehlerbehebung, Multichannel‑Kommunikation.</li>
+  <li><u>Kontrolle/Anpassung/Ersatz</u>: Tests/Analysen, Upgrades, Datenlöschung/Migration, Recycling/Refurbishing, Garantie/Gewährleistung.</li>
+</ul>
+
+<h3>Servicearten der IT (Auswahl mit Kurzinfo)</h3>
+<ul>
+  <li><u>IT‑Vertrieb/Handel</u>: Beschaffung/Verkauf inkl. Aufbau & Netz‑Anschluss.</li>
+  <li><u>IT‑Service</u>: Allgemeine Leistungen „durch und für IT“.</li>
+  <li><u>Break/Fix & Field‑Service‑Management</u>: Vor‑Ort‑Reparaturen; FSM plant/optimiert Außendienst (proaktiv/reaktiv).</li>
+  <li><u>On‑Site‑Management</u>: Dauerhafte Leistungen in Kundenräumen.</li>
+  <li><u>Swap‑Management</u>: Sofortaustausch durch identisch konfiguriertes Ersatzgerät.</li>
+  <li><u>DIY‑Service</u>: Kunde führt vereinbarte Arbeiten selbst aus (Garantie bleibt erhalten).</li>
+  <li><u>Cloud‑Services</u>: Dienste eines Cloud‑Providers.</li>
+  <li><u>Live‑Chat / Chatbot</u>: Direkter Support via Chat; Chatbots automatisieren (KI), Hybrid = mit Live‑Chat.</li>
+  <li><u>Managed Services</u>: Wiederkehrende Betreuung durch MSP inkl. Monitoring & Wartung – Probleme werden <em>präventiv</em> vermieden.</li>
+  <li><u>Garantieservice</u>: Unentgeltlich auf Basis Garantie/Gewährleistung.</li>
+  <li><u>Kulanz</u>: Freiwilliger, kostenloser Service ohne Pflicht.</li>
+  <li><u>Helpdesk‑Service</u>: Online‑Support über Helpdesk/Ticketsystem.</li>
+  <li><u>Wartungsservice</u>: Instandhaltung gem. Wartungsvertrag.</li>
+  <li><u>Reparaturservice</u>: Wiederherstellung defekter Systeme.</li>
+  <li><u>IT‑Outsourcing</u>: Auslagerung von IT‑Aufgaben an Dritte.</li>
+  <li><u>IT‑Einweisung</u> & <u>IT‑Training</u>: Einführung/Schulungen für Nutzer (teils entgeltlich).</li>
+</ul>
+
+<h3>SOA – Service‑Oriented Architecture</h3>
+<p>Geschäftsprozesse/Systeme werden in modularen, wiederverwendbaren <em>Services</em> gekapselt. Die Interaktion ist über Schnittstellen‑/Beschreibungssprachen definiert. Ergebnis: schnellere, kostengünstigere Entwicklung und bessere Integrationsfähigkeit.</p>
+
+<h3>Cloud‑Modelle</h3>
+<ul>
+  <li><u>IaaS</u>: Infrastruktur (Rechenleistung, Speicher, Netzwerk) aus der Cloud.</li>
+  <li><u>FaaS</u>: Funktionen ausführen ohne Serverbetrieb (ereignisgetrieben, skalierbar).</li>
+  <li><u>PaaS</u>: Entwicklungs‑/Laufzeitplattform für eigene Anwendungen.</li>
+  <li><u>SaaS</u>: Fertige Software on‑demand über das Internet.</li>
+</ul>
+
+<h3>IMAC/R/D‑Lebenszyklus</h3>
+<ul>
+  <li><u>Install</u> – Installieren/Konfigurieren & Bereitstellen am Arbeitsplatz.</li>
+  <li><u>Move</u> – Verpacken/Transport, Installation am neuen Ort, Konfig‑Update, Berechtigungen.</li>
+  <li><u>Add</u> – Hardware/Software hinzufügen, Rechte gemäß Anforderungen/Lizenzen.</li>
+  <li><u>Change</u> – Updates/Upgrades/Neuinstallationen, Sicherheitsmaßnahmen.</li>
+  <li><u>Remove</u> – Deinstallation, Daten sichern/löschen, Ab‑/Ausbau.</li>
+  <li><u>Dispose</u> – Entsorgung, Remarketing, Refurbishing, Recycling/Hardware‑Refresh.</li>
+</ul>
+</section>
+
+<section>
+<h2>01.02 – Service‑Management‑Arten (ITSM)</h2>
+
+<h3>Definition & Phasen</h3>
+<p><em>Managen</em> heißt: ein komplexes Gebiet so organisieren/steuern, dass aus dem Input ein bestmöglicher Output entsteht. <em>ITSM</em> umfasst alle Aktivitäten, mit denen ein Provider IT‑Services plant, bereitstellt, betreibt und verbessert. Phasen: <u>Strategy</u> – <u>Design</u> – <u>Transition</u> – <u>Operation</u> – <u>Improvement</u>.</p>
+
+<h3>18 ITSM‑Prozesse (kompakt + Beispiel)</h3>
+<ul>
+  <li><u>1) Service‑Portfolio‑Management</u> – Portfolio planen/verwalten/optimieren (Business‑Wert, Nachfrage).</li>
+  <li><u>2) Business‑Relationship‑Management</u> – Beziehungen zu Kunden/Partnern pflegen, Erwartungsmanagement.</li>
+  <li><u>3) Service‑Level‑Management</u> – SLAs/OLAs/UCs definieren, messen, berichten.</li>
+  <li><u>4) Capacity‑Management</u> – Ressourcen & Performance sicherstellen (z. B. Auslastung, Skalierung).</li>
+  <li><u>5) Availability‑Management</u> – Verfügbarkeit planen/messen (z. B. %‑Uptime, Wartungsfenster).</li>
+  <li><u>6) Continuity‑Management</u> – Notfall‑ & Wiederanlaufpläne (BCP/DR), Übungen & Pflege.</li>
+  <li><u>7) Service‑Catalogue‑Management</u> – klarer, aktueller Servicekatalog für Kunden & intern.</li>
+  <li><u>8) Information‑Security‑Management</u> – Vertraulichkeit, Integrität, Verfügbarkeit (Policies, Maßnahmen).</li>
+  <li><u>9) Requirements Engineering</u> – Anforderungen erheben, spezifizieren, versionieren.</li>
+  <li><u>10) Data‑Management</u> – Daten modellieren, speichern, bereitstellen (Prozess‑Unterstützung).</li>
+  <li><u>11) Configuration‑Management</u> – CIs (HW/SW/Services) in CMDB pflegen, Beziehungen abbilden.</li>
+  <li><u>12) Change‑Management</u> – Changes planen/genehmigen/umsetzen/reviewen (Risiken minimieren).</li>
+  <li><u>13) Knowledge‑Management</u> – KB aufbauen (FAQs/How‑Tos), Wiederverwendung fördern.</li>
+  <li><u>14) Incident‑Management</u> – Störungen schnell beheben, Service wiederherstellen.</li>
+  <li><u>15) Request‑Fulfilment</u> – Serviceanfragen strukturiert liefern (Zugänge, Lizenzen, Bestellungen).</li>
+  <li><u>16) Problem‑Management</u> – Ursachen wiederkehrender Incidents identifizieren & dauerhaft lösen.</li>
+  <li><u>17) Access‑Management (IAM)</u> – Authentifizierung/Autorisierung, zentrale Rechteverwaltung.</li>
+  <li><u>18) Continual Service Improvement (CSI/M)</u> – KPIs, Reviews, Feedback → Verbesserungen umsetzen.</li>
+</ul>
+</section>
+
+<section>
+<h2>01.03 – Standards & Rahmenwerke im IT‑Service</h2>
+
+<h3>Warum Standards?</h3>
+<p>Sie liefern gemeinsame Regeln/Best Practices, um Prozesse <em>einheitlich, messbar und auditierbar</em> zu gestalten. Ein Prozess hat i. d. R. <em>Input → Aktivitäten → Output</em>, der bewertet werden kann.</p>
+
+<h3>ISO/IEC 20000</h3>
+<ul>
+  <li>Internationaler ITSM‑Qualitätsstandard & Grundlage für Zertifizierung (für Organisationseinheiten; Erneuerung i. d. R. alle 3 Jahre).</li>
+  <li>An Prozessbeschreibungen ausgerichtet; ergänzt durch Vorgehensweisen (z. B. ITIL, COBIT, FitSM).</li>
+  <li>Teile u. a.: Part 1 (Requirements), Part 2 (Code of Practice), Part 3 (Scope Guidance), Part 4 (Process Reference Model), Part 5 (Implementation Plan).</li>
+</ul>
+
+<h3>Weitere ISO‑Familien</h3>
+<ul>
+  <li><u>ISO 9000/9001</u> – Qualitätsmanagement‑Begriffe & Mindestanforderungen (Kundenzufriedenheit, kontinuierliche Verbesserung).</li>
+  <li><u>ISO/IEC 27000</u> – Informationssicherheits‑Management (ISMS).</li>
+  <li><u>ISO/IEC 15504 (SPICE)</u> – Prozessbewertung (Fähigkeits‑/Reifegrade).</li>
+</ul>
+
+<h3>CMMI</h3>
+<p>Best‑Practice‑Modell zur Prozess‑ und Organisationsentwicklung; bewertet <em>Reife</em> (Maturity) und <em>Fähigkeit</em> (Capability) über definierte Stufen.</p>
+
+<h3>ITIL 4</h3>
+<ul>
+  <li>Best‑Practice‑Framework für ITSM (kein Zertifizierungsstandard für Organisationen, aber Trainings/Personenzertifikate).</li>
+  <li>Kernelemente: <em>Service Value System (SVS)</em> & <em>Vier‑Dimensionen‑Modell</em>.</li>
+  <li>Leitprinzipien u. a.: Wertorientierung, „Start where you are“, iterativ mit Feedback, Zusammenarbeit & Transparenz, ganzheitlich, Einfachheit/Praktikabilität, optimieren & automatisieren.</li>
+</ul>
+
+<h3>COBIT 2019</h3>
+<p>Framework für IT‑Governance/Management (Steuerungs‑ und Regelsysteme). Fokussiert auf Zielableitung von Unternehmenszielen, integrierter Ansatz, Abdeckung der gesamten Organisation, Unterscheidung Governance vs. Management.</p>
+
+<h3>FitSM</h3>
+<p>Leichtgewichtiges, frei zugängliches ITSM‑Framework (Dokumentfamilie FitSM 0–6, 14 Prozesse). Keine Organisations‑Zertifizierung; Personenzertifizierung möglich. Häufig in Ausbildung und kleineren Umgebungen eingesetzt.</p>
+
+<h3>SIAM & Business Technology Standard</h3>
+<ul>
+  <li><u>SIAM</u>: Service‑Integration bei Multi‑Providern (Rollen/Prozesse für Zusammenspiel mehrerer Anbieter).</li>
+  <li><u>Business Technology Standard</u>: offenes Framework führender Unternehmen für Plattformökonomie & Open Source.</li>
+</ul>
+
+<h3>Zusammenarbeit & Werkzeuge</h3>
+<p>Föderierte Serviceanbieter (Kooperationen, Konsortien, Partner, Subunternehmen) arbeiten gemeinsam – unterstützt durch Agile/Lean/DevOps/Kanban, Videokonferenzsysteme und KI‑Tools.</p>
+</section>
+
+<section>
+<h2>01.04 – Rechtliche Anforderungen im Servicebereich</h2>
+
+<h3>Governance & Compliance</h3>
+<p>Unternehmen beachten interne Regeln (Governance) und Gesetze (Compliance). Relevante Gesetze: BGB, UWG, BDSG/Landes‑DSG, EU‑DSGVO, StGB, UrhG, Informationspflichten, TMG.</p>
+
+<h3>Vertragsarten & Beteiligte</h3>
+<ul>
+  <li>AGB + Hauptvertragsarten: Kauf‑, Werk‑, Dienst‑, Miet‑, Leasingvertrag.</li>
+  <li><u>SLA</u> (Kunde↔Anbieter), <u>OLA</u> (intern), <u>UC</u> (mit Dritten).</li>
+  <li><u>SaaS</u> rechtlich oft Mischung: Nutzung → Mietrecht; Updates/Customizing → meist Werkvertragsrecht; Speicherüberlassung → Mietrecht. Verträge genau prüfen.</li>
+</ul>
+
+<h3>Datenschutz & Rechnung</h3>
+<ul>
+  <li>Personenbezogene Daten nur gem. DSGVO/BDSG verarbeiten (Rechte, Pflichten, TOMs).</li>
+  <li>Rechnungen müssen gesetzliche Vorgaben erfüllen, insbesondere §14 UStG.</li>
+</ul>
+
+<h3>Urheber‑, Marken‑ & Lizenzrecht</h3>
+<ul>
+  <li><u>Urheberrecht</u>: schützt Werke und deren Schöpfer (Vervielfältigung, Verbreitung, öffentliche Zugänglichmachung).</li>
+  <li><u>Markenrecht/Copyright</u>: schützt Zeichen/Marken zur Unterscheidung von Waren/Dienstleistungen.</li>
+  <li><u>Lizenzrecht</u>: regelt Nutzungsrechte (exklusiv/nicht‑exklusiv, Dauer, Gebiet, Bedingungen), Eigentum bleibt beim Rechteinhaber.</li>
+</ul>
+</section>
+
+<section>
+<h2>02.01 – Prozess der Bearbeitung von Serviceanfragen</h2>
+
+<h3>Zentrale Inhalte</h3>
+<p>Bearbeitung von Serviceanfragen umfasst: <u>Entgegennahme</u>, <u>Erfassung</u>, <u>Klassifizierung</u>, <u>Priorisierung</u> und ggf. <u>Eskalation</u> bis zur Lösung.</p>
+
+<h3>Erstkontakt & Systeme</h3>
+<ul>
+  <li><u>ACD</u> (Automatic Call Distribution): automatische Verteilung von Telefon/Mail/Chat, ggf. mit IVR und CRM/ERP‑Schnittstellen.</li>
+  <li><u>Service Desk/Helpdesk</u>: zentrale Stelle, wo Tickets angelegt und Fälle gesteuert werden.</li>
+  <li><u>SPOC</u>: Single Point of Contact – eine Anlaufstelle für alle IT‑Servicefälle.</li>
+  <li><u>Service‑Management‑System (SMS)</u>: organisatorische/technische Gesamtheit zur Verwaltung/Weiterentwicklung des Servicebereichs.</li>
+</ul>
+
+<h3>Serviceticket</h3>
+<p>Digitale „Akte“ eines Servicefalls: enthält Stammdaten, Verlauf, Maßnahmen, Verantwortliche, SLAs/Fristen, Kommunikation und Abschlusskriterien; ist Basis für Nachvollziehbarkeit und Reporting.</p>
+
+<h3>RACI‑Matrix & Rollen</h3>
+<ul>
+  <li><u>R</u> – Responsible: führt die Aufgabe aus (Durchführungsverantwortung).</li>
+  <li><u>A</u> – Accountable: genehmigungs‑/rechenschaftspflichtig (Gesamtverantwortung, Budget).</li>
+  <li><u>C</u> – Consulted: liefert Expertise/Beitrag (Beratung, ohne Durchführungsverantwortung).</li>
+  <li><u>I</u> – Informed: wird über Status/Ergebnisse informiert.</li>
+</ul>
+<p><em>Tipps:</em> pro Zeile genau ein „R“; Rollen ohne Zuordnung hinterfragen. Unterschied: <u>Position</u> (formale Stelle), <u>Funktion</u> (Arbeitsbeitrag), <u>Rolle</u> (Verhaltenserwartung). Beispiele nach FitSM: SMS‑Owner, Service‑Owner, Process‑Owner, Process‑Manager, Case‑Owner, Process‑Staff.</p>
+</section>
+
+<section>
+<h2>Zusatz – Service Catalogue Management</h2>
+<p>Aufgaben: alle verfügbaren IT‑Services erfassen, verständlich beschreiben (Umfang, Funktionen, Bedingungen, Kosten, Kontakt), Katalog pflegen/aktualisieren und gut zugänglich machen. Bedeutung: schafft Transparenz, steuert Erwartungen, bildet die Informationsbasis für SLA‑Verhandlungen, Service‑Design und Kommunikation zwischen IT und Business. Abgrenzung: <em>nicht</em> Qualitäts‑/Leistungsmanagement (dafür SLM/Capacity/Availability); der Katalog dokumentiert vor allem <em>was</em> angeboten wird.</p>
+</section>
+
+<div class="note">
+<strong>Hinweis zur LK‑Vorbereitung:</strong> Übe, die Kernthemen in 2–3 Sätzen zu erklären (SLA, IMAC/R/D, Incident vs. Request, ITIL vs. ISO 20000, RACI, DSGVO‑Pflichten, Servicekatalog). Typische Mini‑fragen: „Was ist ein SLA?“, „Wozu dient das Request‑Fulfilment?“, „Was bedeutet ‚A‘ in RACI?“.
+</div>
+
+</body>
+</html>
