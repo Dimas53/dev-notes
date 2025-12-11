@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LF8 – Python, REPL und REST-APIs</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.5;
+            color: #333;
+            max-width: 950px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            border-bottom: 2px solid #2c3e50;
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+        }
+        h2 {
+            color: #fff;
+            background-color: #2980b9;
+            padding: 10px;
+            border-radius: 4px;
+            margin-top: 40px;
+        }
+        h3 {
+            color: #16a085;
+            margin-top: 25px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 0.95em;
+        }
+        th, td {
+            border: 1px solid #bdc3c7;
+            padding: 8px 12px;
+            text-align: left;
+            vertical-align: top;
+        }
+        th {
+            background-color: #ecf0f1;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        .term-table th {
+            width: 35%;
+        }
+        .definition {
+            background-color: #e8f6f3;
+            border-left: 5px solid #1abc9c;
+            padding: 10px 15px;
+            margin: 15px 0;
+        }
+        .definition strong {
+            color: #16a085;
+        }
+        .task-box {
+            background-color: #fcfcfc;
+            border: 1px solid #ddd;
+            border-left: 5px solid #e67e22;
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 4px;
+        }
+        .task-title {
+            font-weight: bold;
+            color: #d35400;
+            margin-bottom: 10px;
+            display: block;
+            text-transform: uppercase;
+            font-size: 0.9em;
+        }
+        .step {
+            margin-bottom: 8px;
+            padding-left: 10px;
+            border-left: 2px solid #eee;
+        }
+        .formula {
+            font-family: Consolas, monospace;
+            background-color: #eee;
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+        .result {
+            font-weight: bold;
+            color: #c0392b;
+        }
+        ul {
+            margin-top: 5px;
+            padding-left: 20px;
+        }
+        pre {
+            background-color: #f0f0f0;
+            padding: 10px 12px;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-size: 0.9em;
+        }
+        code {
+            font-family: Consolas, monospace;
+        }
+        .section-text p {
+            margin-top: 8px;
+            margin-bottom: 14px;
+        }
+        .section-text ul {
+            margin-top: 4px;
+            margin-bottom: 12px;
+        }
+        .section-divider {
+            margin: 60px 0 30px;
+            border: 0;
+            border-top: 2px solid #2c3e50;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <h1>
+        LF8 – Python-Umgebung, REPL und REST-APIs<br>
+        <span style="font-size:0.6em; font-weight:normal;">
+            Notizen für macOS, PyCharm und die Arbeit mit JSON / requests
+        </span>
+    </h1>
+
+    <!-- 1. Umgebung einrichten -->
+    <h2>1. Python-Umgebung unter macOS und PyCharm</h2>
+
+    <div class="section-text">
+        <p>
+            Ziel: eine saubere Python-Umgebung für LF8 auf dem Mac einrichten,
+            mit global installiertem Python, einer Projekt-venv, richtig
+            konfiguriertem Interpreter in PyCharm und funktionierendem
+            <span class="formula">turtle</span>.
+        </p>
+    </div>
+
+    <h3>1.1 PyCharm und aktuelle Python-Version installieren</h3>
+    <ul>
+        <li>PyCharm Community Edition herunterladen und installieren:
+            <br><span class="formula">&lt;a href="https://www.jetbrains.com/pycharm/download"&gt;PyCharm Download&lt;/a&gt;</span>
+        </li>
+        <li>Aktuelle Python-Version für macOS herunterladen:
+            <br><span class="formula">&lt;a href="https://www.python.org/downloads/"&gt;Python Download&lt;/a&gt;</span>
+        </li>
+        <li>Python-Installer ausführen (Häkchen „Add Python to PATH“ bei Windows, unter macOS genügt Installation).</li>
+        <li>Nach der Installation im Terminal prüfen, dass eine aktuelle Version verfügbar ist (z.&nbsp;B. 3.12 / 3.14).</li>
+    </ul>
+
+    <h3>1.2 Komponenten im Überblick</h3>
+    <table class="term-table">
+        <tr>
+            <th>Komponente</th>
+            <th>Rolle im Projekt</th>
+        </tr>
+        <tr>
+            <td>Python-Interpreter (global)</td>
+            <td>Systemweite Installation, z.&nbsp;B. <span class="formula">/usr/local/bin/python3</span>. Von überall erreichbar.</td>
+        </tr>
+        <tr>
+            <td>pip</td>
+            <td>Paketmanager: <span class="formula">python3 -m pip</span> oder <span class="formula">pip3</span>.</td>
+        </tr>
+        <tr>
+            <td>venv</td>
+            <td>Virtuelle Umgebung pro Projekt, damit Abhängigkeiten getrennt bleiben.</td>
+        </tr>
+        <tr>
+            <td>PyCharm</td>
+            <td>IDE, in der wir Dateien bearbeiten, den Interpreter wählen und Skripte starten.</td>
+        </tr>
+        <tr>
+            <td>REPL</td>
+            <td>Interaktive Konsole (<span class="formula">python3</span> mit <span class="formula">&gt;&gt;&gt;</span>), gut für Tests.</td>
+        </tr>
+    </table>
+
+    <h3>1.3 Python und pip unter macOS prüfen</h3>
+    <p>Nach der globalen Python-Installation im Terminal prüfen:</p>
+    <pre><code>python3 --version
+which python3
+
+python3 -m pip --version
+</code></pre>
+
+    <div class="definition">
+        <strong>Hinweis:</strong>
+        Es kann mehrere Python-Versionen geben (z.&nbsp;B. 3.9 vom System und 3.14 neu installiert).
+        Wichtig ist, dass im Terminal und in PyCharm dieselbe, aktuelle Version verwendet wird.
+    </div>
+
+    <h3>1.4 Virtuelle Umgebung (venv) für ein Projekt</h3>
+    <p>
+        Python wird einmal global installiert (damit <span class="formula">python3</span> von überall im System verfügbar ist).
+        Zusätzlich ist es sehr empfehlenswert, für jedes LF8-Projekt eine eigene
+        <span class="formula">venv</span> zu verwenden.
+        Man kann sich das ähnlich vorstellen wie <span class="formula">node_modules</span> in einem Nuxt-Projekt:
+        globale Node-Version vs. lokale Dependencies pro Projekt.
+    </p>
+    <div class="task-box">
+        <span class="task-title">Schritte: venv anlegen und aktivieren (macOS / zsh)</span>
+        <div class="step">
+            In den Projektordner wechseln:<br>
+            <span class="formula">cd /Pfad/zum/projekt</span>
+        </div>
+        <div class="step">
+            Virtuelle Umgebung erstellen (auf Basis der globalen Python-Version):<br>
+            <span class="formula">python3 -m venv .venv</span>
+        </div>
+        <div class="step">
+            venv aktivieren:<br>
+            <span class="formula">source .venv/bin/activate</span>
+        </div>
+        <div class="step">
+            Prüfen, ob die richtige Python-Version genutzt wird:<br>
+            <span class="formula">python --version</span><br>
+            <span class="formula">which python</span>
+        </div>
+        <div class="step">
+            In dieser venv werden Pakete installiert, z.&nbsp;B.:<br>
+            <span class="formula">pip install requests</span>
+        </div>
+    </div>
+
+    <div class="definition">
+        <strong>Merksatz:</strong>
+        Python wird einmal global installiert (als „Basis-Engine“).<br>
+        Für einzelne Projekte wird eine eigene <span class="formula">venv</span> verwendet:
+        <ul>
+            <li>Pakete eines Projekts landen nicht im ganzen System, sondern nur in <span class="formula">.venv</span>.</li>
+            <li>Projekte können unterschiedliche Paket-Versionen verwenden (z.&nbsp;B. <span class="formula">requests 2.31</span> vs. <span class="formula">2.32</span>).</li>
+            <li>Wenn ein Projekt gelöscht wird, kann man seine venv einfach mitlöschen, ohne andere Projekte zu beeinflussen.</li>
+        </ul>
+        Das ist vergleichbar mit Nuxt/Node:
+        globale Node-Version vs. lokale Abhängigkeiten pro Projekt in <span class="formula">node_modules</span>.
+    </div>
+
+
+    <h3>1.5 Interpreter in PyCharm auswählen</h3>
+    <ul>
+        <li>Projekt in PyCharm öffnen.</li>
+        <li>File → Settings → Project → Python Interpreter.</li>
+        <li>„Add Interpreter…“ → „Add Local Interpreter…“.</li>
+        <li>Optionen:
+            <ul>
+                <li><strong>System Interpreter:</strong> globale Python-Version wählen
+                    (z.&nbsp;B. <span class="formula">/usr/local/bin/python3.14</span>).</li>
+                <li><strong>Virtualenv:</strong> die Projekt-venv <span class="formula">.venv</span> auswählen.</li>
+            </ul>
+        </li>
+        <li>Bestätigen. PyCharm verwendet nun diesen Interpreter für das Projekt.</li>
+    </ul>
+
+    <h3>1.6 turtle in einer Datei testen (Mini-Quadrat)</h3>
+    <p>Ein etwas interessanteres Beispiel: ein Quadrat zeichnen.</p>
+    <pre><code># datei: turtle_square.py
+import turtle
+
+# Fenster erstellen
+wn = turtle.Screen()
+wn.bgcolor("lightblue")
+wn.title("Turtle – Quadrat")
+
+# Turtle erstellen
+t = turtle.Turtle()
+t.color("darkgreen")
+t.pensize(3)
+
+# Quadrat zeichnen
+for _ in range(4):
+    t.forward(100)
+    t.right(90)
+
+turtle.done()
+</code></pre>
+    <p>Ausführen im Terminal (im Projektordner):</p>
+    <pre><code>python3 turtle_square.py
+</code></pre>
+
+    <h3>1.7 turtle im REPL testen</h3>
+    <p>Für kleine Experimente kann man turtle auch im REPL benutzen:</p>
+    <pre><code>python3
+</code></pre>
+    <pre><code>&gt;&gt;&gt; import turtle
+&gt;&gt;&gt; wn = turtle.Screen()
+&gt;&gt;&gt; t = turtle.Turtle()
+&gt;&gt;&gt; t.forward(80)
+&gt;&gt;&gt; t.right(90)
+&gt;&gt;&gt; t.forward(80)
+&gt;&gt;&gt; turtle.done()
+</code></pre>
+    <div class="definition">
+        <strong>Hinweis:</strong>
+        Für längere Programme ist eine Datei stabiler. REPL ist nur zum schnellen Testen
+        einzelner Befehle geeignet.
+    </div>
+
+    <hr class="section-divider">
+
+    <!-- 2. REPL vs. Datei -->
+    <h2>2. REPL vs. Skriptdatei</h2>
+
+    <div class="definition">
+        <strong>Definition REPL:</strong>
+        REPL = Read–Eval–Print–Loop. Interaktive Python-Konsole, in der jede Zeile
+        direkt ausgeführt wird. Ideal für sehr kleine Tests, nicht für große Programme.
+    </div>
+
+    <h3>2.1 Arbeiten im REPL</h3>
+    <p>REPL starten:</p>
+    <pre><code>python3
+</code></pre>
+    <p>Beispiel:</p>
+    <pre><code>&gt;&gt;&gt; 2 + 3
+5
+&gt;&gt;&gt; import math
+&gt;&gt;&gt; math.sqrt(25)
+5.0
+</code></pre>
+    <ul>
+        <li>Variablen existieren nur, solange der REPL läuft.</li>
+        <li>Nach <span class="formula">exit()</span> oder <span class="formula">Ctrl+D</span> ist alles weg.</li>
+    </ul>
+
+    <h3>2.2 Arbeiten in einer Datei</h3>
+    <p>Python-Datei erstellen, z.&nbsp;B. <span class="formula">main.py</span>:</p>
+    <pre><code># main.py
+def greet(name: str) -&gt; None:
+    print(f"Hallo, {name}!")
+
+greet("Dima")
+</code></pre>
+    <p>Ausführen im Terminal:</p>
+    <pre><code>python3 main.py
+</code></pre>
+    <ul>
+        <li>Der Code wird bei jedem Start von oben nach unten ausgeführt.</li>
+        <li>Nach Ende des Programms sind alle Variablen weg.</li>
+        <li>Für „echte“ Programme immer Dateien benutzen, REPL nur für schnelle Tests.</li>
+    </ul>
+
+    <hr class="section-divider">
+
+    <!-- 3. Schöner JSON-Output -->
+    <h2>3. Schöner JSON-Output: pprint und json.dumps</h2>
+
+    <h3>3.1 pprint</h3>
+    <p><span class="formula">pprint</span> formatiert verschachtelte Daten (z.&nbsp;B. JSON) lesbarer:</p>
+    <pre><code>from pprint import pprint
+
+data = {
+    "name": "python-tutorial",
+    "owner": {"login": "johannesloetzsch"},
+    "stargazers_count": 1,
+}
+
+pprint(data)
+</code></pre>
+
+    <h3>3.2 json.dumps als „jq-Ersatz“</h3>
+    <p>Die Standardbibliothek <span class="formula">json</span> kann ein Objekt schön einrücken:</p>
+    <pre><code>import json
+
+print(json.dumps(data, indent=4))
+</code></pre>
+
+    <div class="definition">
+        <strong>Merksatz:</strong>
+        <span class="formula">pprint()</span> ist gut für schnelle Ausgaben in Python,
+        <span class="formula">json.dumps(..., indent=&lt;n&gt;)</span> ist praktisch,
+        wenn JSON „wie aus jq“ aussehen soll.
+    </div>
+
+    <hr class="section-divider">
+
+    <!-- 4. REST-API und JSON -->
+    <h2>4. Kurze Einführung: REST-API und JSON</h2>
+
+    <h3>4.1 Was ist eine REST-API?</h3>
+    <div class="section-text">
+        <p>
+            Eine REST-API ist eine HTTP-Schnittstelle, über die ein Client
+            (z.&nbsp;B. Nuxt-Frontend oder Python-Skript) Daten von einem
+            Server abfragen oder verändern kann.
+        </p>
+        <ul>
+            <li>Kommunikation über URL + HTTP-Methoden (GET, POST, PUT, DELETE).</li>
+            <li>Antwort meist im Format JSON.</li>
+            <li>Client ↔ Server funktioniert ähnlich wie bei Directus + Nuxt.</li>
+        </ul>
+    </div>
+
+    <h3>4.2 JSON als Austauschformat</h3>
+    <pre><code>{
+  "id": 1,
+  "name": "python-tutorial",
+  "owner": {
+    "login": "johannesloetzsch"
+  },
+  "stargazers_count": 1
+}
+</code></pre>
+    <p>
+        In Python wird dieses JSON nach <span class="formula">response.json()</span>
+        zu einem <span class="formula">dict</span> (Dictionary) mit verschachtelten Strukturen.
+    </p>
+
+    <hr class="section-divider">
+
+    <!-- 5. Bibliothek requests -->
+    <h2>5. Die Bibliothek „requests“</h2>
+
+    <h3>5.1 Installation</h3>
+    <p>In einer aktivierten venv oder global (falls gewünscht):</p>
+    <pre><code>pip install requests
+</code></pre>
+
+    <h3>5.2 Einfacher GET-Request (GitHub API)</h3>
+    <pre><code>import requests
+from pprint import pprint
+
+url = "https://api.github.com/repos/johannesloetzsch/python-tutorial"
+
+response = requests.get(url)
+print("Status:", response.status_code)
+print("Content-Type:", response.headers.get("Content-Type"))
+
+data = response.json()  # JSON -&gt; dict
+pprint(data)
+</code></pre>
+
+    <div class="definition">
+        <strong>Wichtig:</strong>
+        <span class="formula">response.json()</span> funktioniert nur,
+        wenn der Server wirklich JSON schickt. Bei HTML-Seiten (normale GitHub-URLs)
+        gibt es eine <span class="result">JSONDecodeError</span>.
+    </div>
+
+    <h3>5.3 Einzelne Felder aus JSON holen</h3>
+    <pre><code>full_name = data["full_name"]
+owner_login = data["owner"]["login"]
+stars = data["stargazers_count"]
+
+print("Repo:", full_name)
+print("Owner:", owner_login)
+print("Stars:", stars)
+</code></pre>
+
+    <h3>5.4 JSON wie ein Dictionary benutzen</h3>
+    <pre><code># alle Schlüssel
+for key in data:
+    print(key)
+
+# alle Schlüssel + Werte
+for key, value in data.items():
+    print(key, ":", value)
+</code></pre>
+
+    <h3>5.5 Status prüfen und einfache Fehlerbehandlung</h3>
+    <pre><code>response = requests.get(url)
+
+if response.status_code == 200:
+    data = response.json()
+    print("OK, Daten geladen.")
+else:
+    print("Fehler:", response.status_code)
+    print("Antwort:", response.text)
+</code></pre>
+
+    <h3>5.6 GET mit Query-Parametern</h3>
+    <p>Query-Parameter werden mit <span class="formula">params</span> übergeben:</p>
+    <pre><code>url = "https://petstore.swagger.io/v2/pet/findByStatus"
+params = {"status": "available"}
+
+response = requests.get(url, params=params)
+data = response.json()
+</code></pre>
+
+    <h3>5.7 POST mit JSON-Body</h3>
+    <p>Body wird in Python meist über das Argument <span class="formula">json=</span> gesetzt:</p>
+    <pre><code>url = "https://petstore.swagger.io/v2/pet"
+
+new_pet = {
+    "id": 123456789,
+    "name": "Tortik",
+    "status": "available",
+}
+
+response = requests.post(url, json=new_pet)
+print("Status:", response.status_code)
+from pprint import pprint
+pprint(response.json())
+</code></pre>
+
+    <div class="definition">
+        <strong>Nuxt-Analogie:</strong>
+        <span class="formula">await $fetch('/api/pet', { method: 'POST', body: {...} })</span><br>
+        entspricht in Python ungefähr<br>
+        <span class="formula">requests.post(url, json=payload)</span>.
+    </div>
+
+    <h3>5.8 Beispiel: mehrere Repositories eines Users (Array verarbeiten)</h3>
+    <p>GitHub liefert bei <span class="formula">/users/&lt;name&gt;/repos</span> eine Liste von Repositories.</p>
+    <pre><code># datei: github_repos.py
+import requests
+
+from pprint import pprint
+
+user = "vuejs"
+url = f"https://api.github.com/users/{user}/repos"
+
+response = requests.get(url)
+
+if response.status_code != 200:
+    print("Fehler:", response.status_code)
+    print(response.text)
+else:
+    repos = response.json()  # Liste von dicts
+
+    print(f"Gefundene Repos für {user}: {len(repos)}\n")
+
+    for repo in repos:
+        name = repo["name"]
+        stars = repo["stargazers_count"]
+        is_fork = repo["fork"]
+        print(f"- {name:30} ⭐ {stars:5}  fork={is_fork}")
+</code></pre>
+    <p>
+        Hier siehst du, wie man mit einer JSON-Liste arbeitet: Schleife, einzelne Felder,
+        einfache Formatierung.
+    </p>
+
+    <h3>5.9 Beispiel: Pets nach Status filtern (Swagger Petstore)</h3>
+    <pre><code># datei: petstore_list.py
+import requests
+
+from pprint import pprint
+
+BASE_URL = "https://petstore.swagger.io/v2"
+
+def list_available_pets(limit: int = 5) -&gt; None:
+    url = f"{BASE_URL}/pet/findByStatus"
+    params = {"status": "available"}
+    response = requests.get(url, params=params)
+
+    print("Status:", response.status_code)
+
+    if response.status_code != 200:
+        print("Fehler:", response.text)
+        return
+
+    pets = response.json()  # Liste von dicts
+
+    print(f"Anzahl gefundener Pets: {len(pets)}")
+    print(f"Zeige die ersten {limit}:\n")
+
+    for pet in pets[:limit]:
+        pet_id = pet.get("id")
+        name = pet.get("name")
+        status = pet.get("status")
+        print(f"ID={pet_id}  Name={name}  Status={status}")
+
+list_available_pets()
+</code></pre>
+
+    <hr class="section-divider">
+
+    <!-- 6. JSON als lokale "Datenbank" -->
+    <h2>6. JSON als lokale „Datenbank“ nutzen</h2>
+
+    <h3>6.1 JSON einmal speichern</h3>
+    <p>Beispiel: GitHub-API einmal abfragen und Ergebnis in einer Datei sichern.</p>
+    <pre><code># datei: repo_to_file.py
+import requests
+import json
+
+url = "https://api.github.com/repos/johannesloetzsch/python-tutorial"
+response = requests.get(url)
+data = response.json()
+
+with open("repo_data.json", "w", encoding="utf-8") as f:
+    json.dump(data, f, indent=4)
+</code></pre>
+
+    <h3>6.2 JSON später wieder laden (in anderer Datei)</h3>
+    <pre><code># datei: read_repo.py
+import json
+
+with open("repo_data.json", encoding="utf-8") as f:
+    data = json.load(f)
+
+print(data["full_name"])
+print(data["owner"]["login"])
+print("Stars:", data["stargazers_count"])
+</code></pre>
+
+    <div class="definition">
+        <strong>Vorteil:</strong>
+        Der Code kann mit dem gespeicherten JSON offline arbeiten. Es muss nicht bei
+        jedem Programmstart ein HTTP-Request an die API gesendet werden.
+    </div>
+
+    <h3>6.3 Live-API vs. Cache umschalten</h3>
+    <pre><code># datei: repo_live_or_cache.py
+import requests
+import json
+
+USE_LIVE_API = False
+URL = "https://api.github.com/repos/johannesloetzsch/python-tutorial"
+
+if USE_LIVE_API:
+    response = requests.get(URL)
+    data = response.json()
+else:
+    with open("repo_data.json", encoding="utf-8") as f:
+        data = json.load(f)
+
+print(data["full_name"])
+</code></pre>
+
+    <hr class="section-divider">
+
+    <!-- 7. HTTP-Methoden -->
+    <h2>7. HTTP-Methoden: GET, POST, PUT, DELETE</h2>
+
+    <h3>7.1 Übersicht</h3>
+    <table class="term-table">
+        <tr>
+            <th>Methode</th>
+            <th>Zweck</th>
+        </tr>
+        <tr>
+            <td>GET</td>
+            <td>Daten lesen (z.&nbsp;B. Liste oder Detail).</td>
+        </tr>
+        <tr>
+            <td>POST</td>
+            <td>Neuen Datensatz anlegen.</td>
+        </tr>
+        <tr>
+            <td>PUT</td>
+            <td>Bestehenden Datensatz komplett aktualisieren.</td>
+        </tr>
+        <tr>
+            <td>DELETE</td>
+            <td>Datensatz löschen.</td>
+        </tr>
+    </table>
+
+    <h3>7.2 Mapping Nuxt ↔ Python</h3>
+    <table>
+        <tr>
+            <th>Nuxt (Frontend)</th>
+            <th>Python + requests (Backend-Client)</th>
+        </tr>
+        <tr>
+            <td><span class="formula">await $fetch('/api/items')</span></td>
+            <td><span class="formula">requests.get("https://example.com/api/items")</span></td>
+        </tr>
+        <tr>
+            <td><span class="formula">await $fetch('/api/items', { method: 'POST', body })</span></td>
+            <td><span class="formula">requests.post("https://example.com/api/items", json=payload)</span></td>
+        </tr>
+        <tr>
+            <td><span class="formula">await $fetch('/api/items/1', { method: 'PUT', body })</span></td>
+            <td><span class="formula">requests.put("https://example.com/api/items/1", json=payload)</span></td>
+        </tr>
+        <tr>
+            <td><span class="formula">await $fetch('/api/items/1', { method: 'DELETE' })</span></td>
+            <td><span class="formula">requests.delete("https://example.com/api/items/1")</span></td>
+        </tr>
+    </table>
+
+    <h3>7.3 Vollständiges CRUD-Beispiel mit „pet“ (mit Kommentaren)</h3>
+    <pre><code># datei: petstore_crud.py
+import requests
+from pprint import pprint
+
+# base URL of Swagger Petstore API
+BASE_URL = "https://petstore.swagger.io/v2"
+
+# ID of our test pet (choose a large unique number)
+PET_ID = 123456789  # beliebige große, eindeutige ID
+
+
+# CREATE /pet
+def create_pet(pet_id: int) -> None:
+    # build URL for POST /pet
+    url = f"{BASE_URL}/pet"
+
+    # request body (Python dict -&gt; will be sent as JSON)
+    new_pet = {
+        "id": pet_id,
+        "category": {"id": 1, "name": "dog"},
+        "name": "Tortik",
+        "photoUrls": ["https://example.com/tortik.jpg"],
+        "tags": [{"id": 1, "name": "cute"}],
+        "status": "available",
+    }
+
+    # send POST request with JSON body
+    response = requests.post(url, json=new_pet)
+
+    print("CREATE status:", response.status_code)
+    pprint(response.json())
+
+
+# GET /pet/{petId}
+def get_pet(pet_id: int) -> None:
+    url = f"{BASE_URL}/pet/{pet_id}"
+    response = requests.get(url)
+
+    print("GET status:", response.status_code)
+    pprint(response.json())
+
+
+# PUT /pet  (update existing pet)
+def update_pet(pet_id: int) -> None:
+    url = f"{BASE_URL}/pet"
+
+    updated_pet = {
+        "id": pet_id,
+        "category": {"id": 1, "name": "dog"},
+        "name": "Tortik-Superstar",
+        "photoUrls": ["https://example.com/tortik2.jpg"],
+        "tags": [{"id": 1, "name": "very cute"}],
+        "status": "sold",
+    }
+
+    response = requests.put(url, json=updated_pet)
+
+    print("UPDATE status:", response.status_code)
+    pprint(response.json())
+
+
+# DELETE /pet/{petId}
+def delete_pet(pet_id: int) -> None:
+    url = f"{BASE_URL}/pet/{pet_id}"
+    response = requests.delete(url)
+
+    print("DELETE status:", response.status_code, response.text)
+
+
+# main function to demonstrate CRUD operations step by step
+def main() -&gt; None:
+    print("Petstore CRUD demo")
+
+    # 1) create a new pet
+    create_pet(PET_ID)
+
+    print("\n--- Fetching created pet ---")
+    # 2) read created pet
+    get_pet(PET_ID)
+
+    print("\n--- Updating pet ---")
+    # 3) update pet
+    update_pet(PET_ID)
+
+    print("\n--- Fetching updated pet ---")
+    # 4) read updated pet
+    get_pet(PET_ID)
+
+    print("\n--- Deleting pet ---")
+    # 5) delete pet
+    delete_pet(PET_ID)
+
+    print("\n--- Trying to fetch deleted pet ---")
+    # 6) try to fetch deleted pet (should be 404)
+    get_pet(PET_ID)
+
+
+# run main() only if this file is executed directly
+if __name__ == "__main__":
+    main()
+</code></pre>
+
+    <h3>7.4 Beispiel-Ausgabe in der Konsole</h3>
+    <pre><code>python3 petstore_crud.py
+Petstore CRUD demo
+CREATE status: 200
+{'category': {'id': 1, 'name': 'dog'},
+ 'id': 123456789,
+ 'name': 'Tortik',
+ 'photoUrls': ['https://example.com/tortik.jpg'],
+ 'status': 'available',
+ 'tags': [{'id': 1, 'name': 'cute'}]}
+
+--- Fetching created pet ---
+GET status: 200
+{'category': {'id': 1, 'name': 'dog'},
+ 'id': 123456789,
+ 'name': 'Tortik',
+ 'photoUrls': ['https://example.com/tortik.jpg'],
+ 'status': 'available',
+ 'tags': [{'id': 1, 'name': 'cute'}]}
+
+--- Updating pet ---
+UPDATE status: 200
+{'category': {'id': 1, 'name': 'dog'},
+ 'id': 123456789,
+ 'name': 'Tortik-Superstar',
+ 'photoUrls': ['https://example.com/tortik2.jpg'],
+ 'status': 'sold',
+ 'tags': [{'id': 1, 'name': 'very cute'}]}
+
+--- Fetching updated pet ---
+GET status: 200
+{'category': {'id': 1, 'name': 'dog'},
+ 'id': 123456789,
+ 'name': 'Tortik-Superstar',
+ 'photoUrls': ['https://example.com/tortik2.jpg'],
+ 'status': 'sold',
+ 'tags': [{'id': 1, 'name': 'very cute'}]}
+
+--- Deleting pet ---
+DELETE status: 200 {"code":200,"type":"unknown","message":"123456789"}
+
+--- Trying to fetch deleted pet ---
+GET status: 404
+{'code': 1, 'message': 'Pet not found', 'type': 'error'}
+</code></pre>
+
+    <h3>7.5 Kurz-Erklärung am Beispiel von create_pet()</h3>
+    <div class="section-text">
+        <p>Die Funktion <span class="formula">create_pet()</span> ist ein gutes Beispiel dafür, wie ein POST-Request in Python aufgebaut ist:</p>
+        <ul>
+            <li><span class="formula">import requests</span> und <span class="formula">from pprint import pprint</span><br>
+                requests stellt die HTTP-Methoden (GET, POST, PUT, DELETE) zur Verfügung,
+                pprint formatiert die JSON-Antwort lesbar.
+            </li>
+            <li><span class="formula">BASE_URL</span> und <span class="formula">PET_ID</span><br>
+                BASE_URL ist die gemeinsame Basis für alle Endpunkte.
+                PET_ID ist eine beliebige eindeutige ID für „unser“ Pet.</li>
+            <li><span class="formula">def create_pet(pet_id: int) -&gt; None:</span><br>
+                Definiert eine Funktion mit dem Namen <span class="formula">create_pet</span>.
+                <span class="formula">pet_id: int</span> ist ein Type-Hint und sagt, dass der Parameter
+                <span class="formula">pet_id</span> eine Ganzzahl sein soll.
+                <span class="formula">-&gt; None</span> bedeutet, dass die Funktion keinen Rückgabewert liefert,
+                sondern nur etwas ausführt (HTTP-Request senden, Ausgabe in der Konsole).
+            </li>
+            <li><span class="formula">url = f"{BASE_URL}/pet"</span><br>
+                Mit einer f-String wird der vollständige Endpunkt für <span class="formula">POST /pet</span> gebaut.</li>
+            <li><span class="formula">new_pet = { ... }</span><br>
+                Python-Dict, das die Daten des neuen Pets enthält (id, name, status, tags, …).
+                Dieses Dict entspricht dem JSON-Body, den die Swagger-Petstore-API erwartet.</li>
+            <li><span class="formula">response = requests.post(url, json=new_pet)</span><br>
+                Hier passiert der eigentliche HTTP-Aufruf:
+                <ul>
+                    <li><span class="formula">requests.post(...)</span> = Methode POST</li>
+                    <li><span class="formula">json=new_pet</span> = Dict wird automatisch als JSON gesendet</li>
+                </ul>
+            </li>
+            <li><span class="formula">print("CREATE status:", response.status_code)</span><br>
+                Ausgabe des HTTP-Status (200, 201, 400, 404 usw.), damit man sofort sieht, ob der Request erfolgreich war.</li>
+            <li><span class="formula">pprint(response.json())</span><br>
+                Die JSON-Antwort wird in ein Python-Objekt (dict) umgewandelt und schön formatiert angezeigt,
+                sodass man alle Felder (id, name, status, …) gut erkennen kann.</li>
+        </ul>
+        <p>
+            Die anderen Funktionen (<span class="formula">get_pet()</span>, <span class="formula">update_pet()</span>,
+            <span class="formula">delete_pet()</span>) folgen demselben Muster, verwenden aber unterschiedliche HTTP-Methoden
+            (GET, PUT, DELETE) und jeweils passende Endpunkte.
+        </p>
+    </div>
+
+
+    <hr class="section-divider">
+
+    <!-- 8. Ausblick Swagger -->
+    <h2>8. Ausblick: Swagger Petstore</h2>
+
+    <div class="section-text">
+        <p>
+            Swagger Petstore ist eine öffentliche Demo-REST-API. Sie liefert Daten
+            zu „Pets“ (Haustieren) und hat eine grafische Dokumentation im Browser
+            (Swagger UI). Man kann dort Endpunkte anklicken, Beispiel-JSON sehen
+            und Requests direkt testen.
+        </p>
+        <p>
+            Für LF8 ist Swagger Petstore ideal, um HTTP-Methoden, JSON-Bodies und
+            Statuscodes zu üben. Die nächsten Schritte in dieser Doku können
+            darauf aufbauen: eigene Python-Skripte, die Pets anlegen, lesen,
+            aktualisieren und löschen.
+        </p>
+    </div>
+
+</div>
+
+</body>
+</html>

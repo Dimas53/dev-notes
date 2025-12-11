@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zusammenfassung Rechnungswesen (Prüfungsvorbereitung)</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.5;
+            color: #333;
+            max-width: 950px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            border-bottom: 2px solid #2c3e50;
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+        }
+        h2 {
+            color: #fff;
+            background-color: #2980b9;
+            padding: 10px;
+            border-radius: 4px;
+            margin-top: 40px;
+        }
+        h3 {
+            color: #16a085;
+            margin-top: 25px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+        }
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 0.95em;
+        }
+        th, td {
+            border: 1px solid #bdc3c7;
+            padding: 8px 12px;
+            text-align: left;
+            vertical-align: top;
+        }
+        th {
+            background-color: #ecf0f1;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        .term-table th {
+            width: 50%;
+        }
+        /* Definitions */
+        .definition {
+            background-color: #e8f6f3;
+            border-left: 5px solid #1abc9c;
+            padding: 10px 15px;
+            margin: 15px 0;
+        }
+        .definition strong {
+            color: #16a085;
+        }
+        /* Task boxes */
+        .task-box {
+            background-color: #fcfcfc;
+            border: 1px solid #ddd;
+            border-left: 5px solid #e67e22; /* Orange for Tasks */
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 4px;
+        }
+        .task-title {
+            font-weight: bold;
+            color: #d35400;
+            margin-bottom: 10px;
+            display: block;
+            text-transform: uppercase;
+            font-size: 0.9em;
+        }
+        .step {
+            margin-bottom: 8px;
+            padding-left: 10px;
+            border-left: 2px solid #eee;
+        }
+        .formula {
+            font-family: Consolas, monospace;
+            background-color: #eee;
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+        .result {
+            font-weight: bold;
+            color: #c0392b;
+        }
+        ul {
+            margin-top: 5px;
+            padding-left: 20px;
+        }
+        .explanation-ru {
+            font-size: 0.85em;
+            color: #7f8c8d;
+            font-style: italic;
+            display: block;
+            margin-top: 2px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <h1>Rechnungswesen & Wirtschaftslehre<br><span style="font-size:0.6em; font-weight:normal;">Gesamtzusammenfassung aller Aufgaben</span></h1>
+
+    <!-- 1. GRUNDLAGEN -->
+    <h2>1. Grundlagen des Rechnungswesens</h2>
+
+    <div class="definition">
+        <strong>Rechnungswesen:</strong> Ein System zur Erfassung, Überwachung und Auswertung aller Geld- und Leistungsströme im Unternehmen.
+    </div>
+
+    <h3>Wichtige Begriffe: Fibu vs. KLR</h3>
+    <table class="term-table">
+        <tr>
+            <th>Deutsch (Begriff)</th>
+            <th>Russisch (Значение)</th>
+        </tr>
+        <tr>
+            <td><strong>Finanzbuchhaltung (Fibu)</strong><br>Externes RW (Gesetze: HGB).<br>Ziel: Bilanz, Gewinn für Finanzamt/Bank.</td>
+            <td><strong>Финансовая бухгалтерия</strong><br>Внешний учет (для налоговой, банков). Строго по закону.</td>
+        </tr>
+        <tr>
+            <td><strong>Kosten- und Leistungsrechnung (KLR)</strong><br>Internes RW.<br>Ziel: Preiskalkulation, interne Kontrolle.</td>
+            <td><strong>Управленческий учет</strong><br>Внутренний учет (для управления, расчета цен).</td>
+        </tr>
+        <tr>
+            <td><strong>Aufwand</strong> (Fibu)<br>Alles, was das Eigenkapital mindert (z.B. Spende, Brand, Miete).</td>
+            <td><strong>Расходы (общие)</strong><br>Любые траты, уменьшающие капитал (даже не связанные с производством).</td>
+        </tr>
+        <tr>
+            <td><strong>Kosten</strong> (KLR)<br>Nur betrieblicher Werteverzehr (für Produkte).</td>
+            <td><strong>Затраты (производственные)</strong><br>Расходы только на основную деятельность.</td>
+        </tr>
+    </table>
+
+    <!-- 2. FINANZBUCHHALTUNG (BILANZ) -->
+    <h2>2. Finanzbuchhaltung (Bilanz)</h2>
+
+    <div class="definition">
+        <strong>Bilanz:</strong> Eine Gegenüberstellung von Vermögen (Aktiva) und Kapital (Passiva) zu einem Stichtag.
+        <br>Formel: <code>Summe Aktiva = Summe Passiva</code>
+    </div>
+
+    <h3>Struktur der Bilanz</h3>
+    <table>
+        <tr>
+            <th width="50%">Aktiva (Mittelverwendung)</th>
+            <th width="50%">Passiva (Mittelherkunft)</th>
+        </tr>
+        <tr>
+            <td>
+                <strong>Anlagevermögen (AV)</strong><br>Langfristig: Grundstücke, Maschinen, Fuhrpark.
+            </td>
+            <td>
+                <strong>Eigenkapital (EK)</strong><br>Geld der Eigentümer.
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <strong>Umlaufvermögen (UV)</strong><br>Kurzfristig: Vorräte, Forderungen (Kunden), Bank, Kasse.
+            </td>
+            <td>
+                <strong>Fremdkapital (FK)</strong><br>Schulden: Darlehen, Verbindlichkeiten (Lieferanten).
+            </td>
+        </tr>
+    </table>
+
+    <div class="task-box">
+        <span class="task-title">Aufgabe: Bilanz aufstellen & Kennzahlen</span>
+        <p><strong>Gegeben:</strong> Fuhrpark 410k, Gebäude 7.200k, Ausstattung 50k, Vorräte 30k, Forderungen 110k, Wertpapiere 550k, Kasse 12k, Bank 180k. <br>Passiva: Darlehen 7.800k, Verbindlichkeiten 60k.</p>
+
+        <p><strong>1. Eigenkapital berechnen:</strong></p>
+        <div class="step">
+            Summe Aktiva (Vermögen) = 410+7.200+50+30+110+550+12+180 = <strong>8.542.000 €</strong><br>
+            Summe Fremdkapital (Schulden) = 7.800 (Darlehen) + 60 (Verb.) = <strong>7.860.000 €</strong><br>
+            Eigenkapital = Aktiva - Fremdkapital = 8.542.000 - 7.860.000 = <span class="result">682.000 €</span>
+        </div>
+
+        <p><strong>2. Kennzahlen berechnen:</strong></p>
+        <div class="step">
+            <strong>Eigenkapitalquote:</strong> (EK / Gesamtkapital) * 100<br>
+            (682.000 / 8.542.000) * 100 = <span class="result">7,98 %</span>
+            <span class="explanation-ru">Показывает финансовую независимость (здесь низкая).</span>
+        </div>
+        <div class="step">
+            <strong>Liquidität 1. Grades:</strong> (Flüssige Mittel / Kurzfr. Verb.) * 100<br>
+            Flüssige Mittel = Kasse (12k) + Bank (180k) = 192.000 €<br>
+            Kurzfr. Verb. = 60.000 €<br>
+            (192.000 / 60.000) * 100 = <span class="result">320 %</span>
+            <span class="explanation-ru">Мы можем оплатить текущие долги 3 раза (очень хорошо).</span>
+        </div>
+    </div>
+
+    <!-- 3. KOSTENRECHNUNG -->
+    <h2>3. Kostenrechnung (KLR)</h2>
+
+    <div class="definition">
+        <strong>Break-even-Point (Gewinnschwelle):</strong> Erlöse = Kosten. Gewinn = 0.
+        <br><strong>Deckungsbeitrag (DB):</strong> Verkaufspreis - variable Kosten.
+    </div>
+
+    <!-- TASK: BREAK EVEN (LAMPEN) -->
+    <div class="task-box">
+        <span class="task-title">Aufgabe: Break-even-Analyse (Nachttischlampen)</span>
+        <p><strong>Daten:</strong> Preis 12,50 €, variable Kosten 7,00 €, Fixkosten 330.000 €.</p>
+        <div class="step">
+            1. DB pro Stück = 12,50 - 7,00 = <strong>5,50 €</strong><br>
+            2. Break-even-Menge = Fixkosten / DB = 330.000 / 5,50 = <span class="result">60.000 Stück</span>
+        </div>
+        <p><em>Ab 60.000 Stück macht die Firma Gewinn.</em></p>
+    </div>
+
+    <!-- TASK: STUNDENSATZ -->
+    <div class="task-box">
+        <span class="task-title">Aufgabe: Effektiver Stundensatz (Personal)</span>
+        <p><strong>Frage:</strong> Interne Kraft (140.000 €/Jahr) vs. Externe Kraft (85 €/h).</p>
+        <p><strong>Daten Intern:</strong> 260 Tage/Jahr, 30 Urlaub, 10 Krankheit/Feiertage. 7,8 h/Tag.</p>
+        <div class="step">
+            1. Produktive Tage = 260 - 30 - 10 = 220 Tage<br>
+            2. Produktive Stunden = 220 * 7,8 = 1.716 h<br>
+            3. Stundensatz = 140.000 € / 1.716 h = <span class="result">81,59 €/h</span>
+        </div>
+        <p><em>Entscheidung: Intern (81,59 €) ist günstiger als Extern (85,00 €).</em></p>
+    </div>
+
+    <!-- TASK: HOTLINE -->
+    <div class="task-box">
+        <span class="task-title">Aufgabe: Mischkalkulation (Hotline Minutensatz)</span>
+        <p><strong>Ziel:</strong> Einen einheitlichen Minutenpreis für Kunden finden, der alle Kosten deckt.</p>
+        <p><strong>Kosten pro Schicht:</strong><br>
+            - Bereitschaft (Fix): 120€ (1st Lvl) + 150€ (2nd) + 200€ (3rd) = <strong>470 €</strong><br>
+            - Gespräche (Var): 75€ + 100€ + 75€ = <strong>250 €</strong><br>
+            - Gesamtkosten = 720 €</p>
+        <p><strong>Gesamtminuten:</strong> 150 + 100 + 50 = 300 Minuten.</p>
+        <div class="step">
+            Preis = Gesamtkosten / Gesamtminuten = 720 / 300 = <span class="result">2,40 €/Min</span>
+        </div>
+    </div>
+
+    <!-- 4. KALKULATION -->
+    <h2>4. Kalkulation (Handel)</h2>
+
+    <h3>Das Kalkulationsschema</h3>
+    <table class="term-table">
+        <tr><th>Schema</th><th>Erklärung</th></tr>
+        <tr><td>Listeneinkaufspreis (LEP)</td><td>Preis laut Liste</td></tr>
+        <tr><td>- Rabatt</td><td>Mengenrabatt</td></tr>
+        <tr><td>= Zieleinkaufspreis</td><td>Preis vor Skonto</td></tr>
+        <tr><td>- Skonto</td><td>Bei schneller Zahlung</td></tr>
+        <tr><td>= Bareinkaufspreis</td><td>Wirklicher Zahlbetrag</td></tr>
+        <tr><td>+ Bezugskosten</td><td>Transport/Verpackung</td></tr>
+        <tr><td><strong>= Bezugspreis</strong></td><td><strong>Einstandspreis (Ware im Lager)</strong></td></tr>
+        <tr><td>+ Handlungskosten</td><td>Lager, Verwaltung, Strom</td></tr>
+        <tr><td><strong>= Selbstkosten</strong></td><td><strong>Alle Kosten gedeckt</strong></td></tr>
+        <tr><td>+ Gewinn</td><td>Gewinn der Firma</td></tr>
+        <tr><td>= Barverkaufspreis</td><td>Preis ohne Skonto für Kunde</td></tr>
+        <tr><td>+ Kundenskonto / Rabatt</td><td>Aufschläge für Kunden</td></tr>
+        <tr><td>= Nettoverkaufspreis</td><td>Preis ohne MwSt</td></tr>
+        <tr><td>+ Umsatzsteuer (19%)</td><td>MwSt</td></tr>
+        <tr><td><strong>= Bruttoverkaufspreis</strong></td><td><strong>Ladenpreis</strong></td></tr>
+    </table>
+
+    <!-- TASK: HANDELSKALKULATION (STUHL) -->
+    <div class="task-box">
+        <span class="task-title">Aufgabe: Handelskalkulation (Bürostuhl)</span>
+        <p><strong>Gegeben:</strong> LEP 49,90€, Rabatt 5%, Skonto 2,5%, Bezug 1,70€, Handlungskosten 35%, Gewinn 12%, Kundenskonto 1%, Kundenrabatt 5%, MwSt 19%.</p>
+        <div class="step">
+            LEP: 49,90<br>
+            - Rabatt 5% (2,50) -> Ziel-EK: 47,40<br>
+            - Skonto 2,5% (1,19) -> Bar-EK: 46,21<br>
+            + Bezug 1,70 -> <strong>Bezugspreis: 47,91 €</strong><br>
+            + HK 35% (16,77) -> <strong>Selbstkosten: 64,68 €</strong><br>
+            + Gewinn 12% (7,76) -> Bar-VK: 72,44<br>
+            + K-Skonto 1% (im Hundert! 72,44 / 0,99 * 0,01 = 0,73) -> Ziel-VK: 73,17<br>
+            + K-Rabatt 5% (im Hundert! 73,17 / 0,95 * 0,05 = 3,85) -> Netto-VK: 77,02<br>
+            + MwSt 19% (14,63) -> <strong>Brutto-VK: 91,65 €</strong>
+        </div>
+    </div>
+
+    <!-- TASK: BEZUGSPREISVERGLEICH -->
+    <div class="task-box">
+        <span class="task-title">Aufgabe: Bezugspreisvergleich (Notebooks)</span>
+        <p><strong>Ziel:</strong> Welcher Lieferant ist günstiger für 3.500 Stück?</p>
+        <ul style="font-size:0.9em;">
+            <li><strong>A:</strong> 1.071€, 20% Rabatt, 2% Skonto, 2€ Transport.</li>
+            <li><strong>B:</strong> 901,25€, Netto, "frei Haus" (0€ Transport).</li>
+        </ul>
+        <div class="step">
+            <strong>Lieferant A:</strong><br>
+            1.071 - 20% (214,20) = 856,80<br>
+            856,80 - 2% (17,14) = 839,66<br>
+            839,66 + 2,00 (Transport) = <span class="result">841,66 € / Stück</span>
+        </div>
+        <div class="step">
+            <strong>Lieferant B:</strong><br>
+            Keine Rabatte, kein Transport = <span class="result">901,25 € / Stück</span>
+        </div>
+        <p><em>Ergebnis: Lieferant A ist günstiger.</em></p>
+    </div>
+
+    <!-- 5. KREDIT -->
+    <h2>5. Kredit (Ratendarlehen)</h2>
+
+    <div class="definition">
+        <strong>Ratendarlehen (Abzahlungsdarlehen):</strong> Die Tilgung (Rückzahlung) ist immer gleich hoch. Die Zinsen sinken jährlich. Die Rate sinkt.
+    </div>
+
+    <!-- TASK: KREDITPLAN -->
+    <div class="task-box">
+        <span class="task-title">Aufgabe: Kreditplan erstellen</span>
+        <p><strong>Daten:</strong> 12.000 € Kredit, 3 Jahre, 6% Zins, konstante Tilgung.</p>
+        <div class="step">
+            <strong>Tilgung berechnen:</strong> 12.000 / 3 = 4.000 € pro Jahr.
+        </div>
+        <table>
+            <tr><th>Jahr</th><th>Restschuld</th><th>Zins (6%)</th><th>Tilgung</th><th>Zahlung (Rate)</th></tr>
+            <tr><td>1</td><td>12.000</td><td>720</td><td>4.000</td><td>4.720</td></tr>
+            <tr><td>2</td><td>8.000</td><td>480</td><td>4.000</td><td>4.480</td></tr>
+            <tr><td>3</td><td>4.000</td><td>240</td><td>4.000</td><td>4.240</td></tr>
+        </table>
+    </div>
+
+    <!-- 6. LEASING -->
+    <h2>6. Leasing</h2>
+
+    <div class="definition">
+        <strong>Leasing:</strong> Miete statt Kauf. Liquidität wird geschont, aber Gesamtkosten meist höher.
+    </div>
+
+    <!-- TASK: LEASING VS KAUF -->
+    <div class="task-box">
+        <span class="task-title">Aufgabe: Leasing oder Kauf?</span>
+        <p><strong>Optionen:</strong> Kauf 300.000 € sofort ODER Leasing 6.000 €/Monat (5 Jahre).</p>
+        <div class="step">
+            1. Leasing gesamt: 6.000 * 60 Monate = <strong>360.000 €</strong><br>
+            2. Kauf gesamt: <strong>300.000 €</strong><br>
+            Diff: 60.000 €.
+        </div>
+        <p><em>Entscheidung: Kauf ist rechnerisch günstiger. Leasing wird gewählt, wenn man Liquidität schonen will.</em></p>
+    </div>
+
+    <!-- 7. ENTSCHEIDUNGEN -->
+    <h2>7. Entscheidungen & Investitionen</h2>
+
+    <div class="definition">
+        <strong>Make-or-Buy:</strong> Selbst herstellen oder einkaufen? Break-even-Analyse hilft.
+        <br><strong>Nutzwertanalyse:</strong> Punktesystem für Entscheidungen (nicht nur Preis, auch Qualität).
+    </div>
+
+    <!-- TASK: MAKE OR BUY -->
+    <div class="task-box">
+        <span class="task-title">Aufgabe: Make-or-Buy (Lizenzen)</span>
+        <p><strong>Daten:</strong> Fremd 25€/Jahr (250€ in 10 Jahren). Eigen 1.005.000€ (Fix).</p>
+        <div class="step">
+            Gleichung: Kosten Fremd = Kosten Eigen<br>
+            250 * Menge = 1.005.000<br>
+            Menge = 1.005.000 / 250 = <span class="result">4.020 Stück</span>
+        </div>
+        <p><em>Ab 4.021 Stück ist Eigenentwicklung günstiger.</em></p>
+    </div>
+
+    <!-- TASK: NUTZWERTANALYSE -->
+    <div class="task-box">
+        <span class="task-title">Aufgabe: Nutzwertanalyse (CAD Systeme)</span>
+        <p><strong>Prinzip:</strong> Gewichtung * Punkte = Ergebnis.</p>
+        <div class="step">
+            <strong>Beispiel Unternehmen 2:</strong><br>
+            Grafikkarte (Gewicht 20, Note 2) -> 40 Pkt<br>
+            RAM (Gewicht 25, Note 3) -> 75 Pkt<br>
+            Monitor (Gewicht 40, Note 4) -> 160 Pkt<br>
+            Preis (Gewicht 15, Note 4) -> 60 Pkt<br>
+            Summe = <span class="result">355 Punkte</span> (Sieger)
+        </div>
+    </div>
+
+    <!-- 8. KOMPLEXE AUFGABEN -->
+    <h2>8. Komplexe Aufgaben (Mischung)</h2>
+
+    <!-- TASK: SCHLIESS-SYSTEM -->
+    <div class="task-box">
+        <span class="task-title">Aufgabe: Kostenkalkulation Schließsystem</span>
+        <p><strong>Gegeben:</strong> 65 Zylinder (512€), 80 Transponder (39€), Gerät (2300€). Lizenz 349€/Jahr für 5 Jahre.</p>
+        <div class="step">
+            1. Hardware (Einmalig): (65*512) + (80*39) + 2300 = 33.280 + 3.120 + 2.300 = <strong>38.700 €</strong><br>
+            2. Lizenz (5 Jahre): 349 * 5 = <strong>1.745 €</strong><br>
+            3. Netto gesamt: 38.700 + 1.745 = <strong>40.445 €</strong><br>
+            4. Brutto (x 1,19): <span class="result">48.131,55 €</span>
+        </div>
+    </div>
+
+    <!-- TASK: CAD ARBEITSPLÄTZE -->
+    <div class="task-box">
+        <span class="task-title">Aufgabe: Monatskosten CAD-Plätze</span>
+        <p><strong>Gegeben (5 Plätze):</strong> Monitor 450€ (4 Jahre), PC 720€ (3 Jahre). 5% Rabatt. Software 50€/Monat/Platz. Wartung 1200€/Jahr.</p>
+        <div class="step">
+            1. Anschaffung Netto (5 Stk): Monitor 2.137,50€, PC 3.420€.<br>
+            2. Abschreibung/Monat: <br>
+            - Monitor (48 Monate): 2.137,50 / 48 = 44,53€<br>
+            - PC (36 Monate): 3.420 / 36 = 95,00€<br>
+            3. Laufende Kosten: Software (250€) + Wartung (100€).<br>
+            Summe: 44,53 + 95 + 250 + 100 = <span class="result">489,53 € / Monat</span>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

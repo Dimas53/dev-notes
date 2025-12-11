@@ -1,0 +1,1340 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LF8 – Wiederholung: Datenbanken & Datenformate (Teil 1)</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.5;
+      color: #333;
+      max-width: 950px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #f4f4f4;
+    }
+    .container {
+      background-color: #fff;
+      padding: 40px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    h1 {
+      color: #2c3e50;
+      text-align: center;
+      border-bottom: 2px solid #2c3e50;
+      padding-bottom: 15px;
+      margin-bottom: 30px;
+    }
+    h2 {
+      color: #fff;
+      background-color: #2980b9;
+      padding: 10px;
+      border-radius: 4px;
+      margin-top: 40px;
+    }
+    h3 {
+      color: #16a085;
+      margin-top: 25px;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 5px;
+    }
+    /* Tables */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 15px 0;
+      font-size: 0.95em;
+    }
+    th, td {
+      border: 1px solid #bdc3c7;
+      padding: 8px 12px;
+      text-align: left;
+      vertical-align: top;
+    }
+    th {
+      background-color: #ecf0f1;
+      font-weight: bold;
+      color: #2c3e50;
+    }
+    .term-table th {
+      width: 35%;
+    }
+    /* Definitions */
+    .definition {
+      background-color: #e8f6f3;
+      border-left: 5px solid #1abc9c;
+      padding: 10px 15px;
+      margin: 15px 0;
+    }
+    .definition strong {
+      color: #16a085;
+    }
+    /* Task / Info boxes */
+    .task-box {
+      background-color: #fcfcfc;
+      border: 1px solid #ddd;
+      border-left: 5px solid #e67e22;
+      padding: 20px;
+      margin-top: 20px;
+      border-radius: 4px;
+    }
+    .task-title {
+      font-weight: bold;
+      color: #d35400;
+      margin-bottom: 10px;
+      display: block;
+      text-transform: uppercase;
+      font-size: 0.9em;
+    }
+    .step {
+      margin-bottom: 8px;
+      padding-left: 10px;
+      border-left: 2px solid #eee;
+    }
+    .formula {
+      font-family: Consolas, monospace;
+      background-color: #eee;
+      padding: 2px 5px;
+      border-radius: 3px;
+    }
+    .result {
+      font-weight: bold;
+      color: #c0392b;
+    }
+    ul {
+      margin-top: 5px;
+      padding-left: 20px;
+    }
+    pre {
+      background-color: #f0f0f0;
+      padding: 10px 12px;
+      border-radius: 4px;
+      overflow-x: auto;
+      font-size: 0.9em;
+    }
+    code {
+      font-family: Consolas, monospace;
+    }
+    .section-text p {
+      margin-top: 8px;
+      margin-bottom: 14px;
+    }
+    .section-text ul {
+      margin-top: 4px;
+      margin-bottom: 12px;
+    }
+
+    .section-divider {
+      margin: 60px 0 30px;
+      border: 0;
+      border-top: 2px solid #2c3e50;
+    }
+
+    .join-diagrams {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      align-items: center;
+      margin: 10px 0 20px;
+      flex-wrap: wrap; /* на всякий случай, если будет узкая страница */
+    }
+
+    .join-diagrams img {
+      max-width: 22%;
+      height: auto;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <h1>
+    LF8 – Wiederholung: Datenbanken & Datenformate<br>
+    <span style="font-size:0.6em; font-weight:normal;">
+      Teil 1: 1) Datenbank-Grundlagen · 2) Normalisierung · 3) SQL · 4) SQL-Injections · 5) CSV & CSV-Injections
+    </span>
+  </h1>
+
+  <!-- 1. DATENBANK-GRUNDLAGEN -->
+  <h2>1. Datenbank-Grundlagen</h2>
+
+  <div class="definition">
+    <strong>Datenbank:</strong> Geordnete Sammlung von Daten, die von mehreren Anwendungen gemeinsam genutzt und konsistent verwaltet werden.
+    <br>
+    <strong>DBMS (Datenbankmanagementsystem):</strong> Software, die Daten speichert, schützt und über Sprachen wie SQL zugänglich macht.
+  </div>
+
+  <h3>1.1 Wichtige Begriffe</h3>
+  <table class="term-table">
+    <tr>
+      <th>Begriff</th>
+      <th>Erklärung (kurz)</th>
+    </tr>
+    <tr>
+      <td>Tabelle / Relation</td>
+      <td>Struktur zur Speicherung von Daten in Zeilen (Datensätze) und Spalten (Attribute/Felder).</td>
+    </tr>
+    <tr>
+      <td>Datensatz (Tupel)</td>
+      <td>Eine Zeile in der Tabelle. Beschreibt ein konkretes Objekt, z.&nbsp;B. einen Kunden.</td>
+    </tr>
+    <tr>
+      <td>Attribut / Feld</td>
+      <td>Spalte der Tabelle, z.&nbsp;B. Name, Ort, Geburtsdatum.</td>
+    </tr>
+    <tr>
+      <td>Primärschlüssel</td>
+      <td>Attribut oder Attributkombination, die einen Datensatz eindeutig identifiziert (z.&nbsp;B. Kunden-ID).</td>
+    </tr>
+    <tr>
+      <td>Fremdschlüssel</td>
+      <td>Attribut, das auf den Primärschlüssel einer anderen Tabelle verweist und so Beziehungen herstellt.</td>
+    </tr>
+    <tr>
+      <td>CRUD</td>
+      <td>Grundoperationen auf Daten: Create, Read, Update, Delete – in SQL z.&nbsp;B. INSERT, SELECT, UPDATE, DELETE.</td>
+    </tr>
+    <tr>
+      <td>Transaktion</td>
+      <td>Logische Einheit mehrerer Datenbankoperationen, die ganz oder gar nicht ausgeführt wird.</td>
+    </tr>
+    <tr>
+      <td>ACID</td>
+      <td>Eigenschaften sicherer Transaktionen: Atomicity, Consistency, Isolation, Durability.</td>
+    </tr>
+  </table>
+
+  <h3>1.2 Vorteile des datenbankorientierten Ansatzes</h3>
+  <ul>
+    <li>Reduzierte Redundanz: Daten werden zentral gespeichert, doppelte Speicherung wird verringert.</li>
+    <li>Konsistenz: Regeln und Constraints sorgen für gültige Daten (z.&nbsp;B. keine doppelten IDs).</li>
+    <li>Datenunabhängigkeit: Anwendungen sind weniger von der physischen Speicherung abhängig.</li>
+    <li>Mehrbenutzerbetrieb: Mehrere Nutzer können gleichzeitig auf dieselben Daten zugreifen.</li>
+    <li>Integrität und Sicherheit: Rechte, Rollen und Integritätsregeln schützen die Daten.</li>
+  </ul>
+
+  <!-- 2. NORMALISIERUNG -->
+  <h2>2. Normalisierung (Normalformen)</h2>
+
+  <div class="definition">
+    <strong>Normalisierung:</strong> Systematischer Prozess, Tabellen so zu zerlegen, dass Redundanzen und Anomalien (Einfüge-, Änderungs-, Löschanomalien) minimiert werden.
+    <br>
+    Ziel: stabile, gut strukturierte Tabellen mit klaren Abhängigkeiten zwischen Attributen.
+  </div>
+
+  <h3>2.1 Funktionale Abhängigkeit & Schlüsselbegriffe</h3>
+  <ul>
+    <li><strong>Funktionale Abhängigkeit:</strong> Ein Attribut A bestimmt ein Attribut B, wenn jedem Wert von A genau ein Wert von B zugeordnet ist (z.&nbsp;B. Matrikelnummer → Name).</li>
+    <li><strong>Determinant:</strong> Attribut bzw. Attributkombination, von der andere Attribute funktional abhängen.</li>
+    <li><strong>Primärschlüssel:</strong> gewählter eindeutiger Schlüssel einer Tabelle, oft Determinant für andere Spalten.</li>
+  </ul>
+
+  <h3>2.2 Normalformen – Überblick</h3>
+  <table>
+    <tr>
+      <th>Normalform</th>
+      <th>Kernidee / Ziel</th>
+      <th>Wichtige Voraussetzung</th>
+    </tr>
+    <tr>
+      <td>1. Normalform (1NF)</td>
+      <td>Alle Werte in einem Feld sind atomar (eine Zelle = ein Wert, keine Listen oder Wiederholungsgruppen).</td>
+      <td>Tabellenstruktur mit Zeilen und Spalten, keine Mehrfachwerte in einem Attribut.</td>
+    </tr>
+    <tr>
+      <td>2. Normalform (2NF)</td>
+      <td>Vermeidet Teilabhängigkeiten bei zusammengesetzten Primärschlüsseln: jedes Nicht-Schlüsselattribut hängt vollständig vom gesamten Schlüssel ab.</td>
+      <td>Tabelle ist bereits in 1NF; zusammengesetzter Primärschlüssel möglich.</td>
+    </tr>
+    <tr>
+      <td>3. Normalform (3NF)</td>
+      <td>Vermeidet transitive Abhängigkeiten: Nicht-Schlüsselattribute dürfen nicht von anderen Nicht-Schlüsselattributen abhängen.</td>
+      <td>Tabelle ist in 2NF; alle Nicht-Schlüsselattribute hängen direkt vom Primärschlüssel ab.</td>
+    </tr>
+  </table>
+
+  <h3>2.3 Anomalien – warum Normalisierung wichtig ist</h3>
+  <ul>
+    <li><strong>Einfügeanomalie:</strong> Bestimmte Daten lassen sich nicht einfügen, ohne andere Daten mitzuspeichern (z.&nbsp;B. neuer Kunde nur mit Bestellung).</li>
+    <li><strong>Änderungsanomalie:</strong> Eine Information muss an vielen Stellen geändert werden (z.&nbsp;B. neue Adresse in mehreren Zeilen), sonst entstehen Widersprüche.</li>
+    <li><strong>Löschanomalie:</strong> Beim Löschen eines Datensatzes gehen unerwünscht weitere Informationen verloren (z.&nbsp;B. letzter Auftrag eines Kunden → Kundendaten verschwinden mit).</li>
+  </ul>
+
+  <div class="task-box">
+    <span class="task-title">Merkregel Normalisierung</span>
+    <div class="step">
+      1NF: Eine Zelle = ein Wert.<br>
+      2NF: Keine Teilabhängigkeiten vom zusammengesetzten Schlüssel.<br>
+      3NF: Keine transitive Abhängigkeit über andere Nicht-Schlüsselattribute.
+    </div>
+  </div>
+
+  <!-- 3. SQL -->
+  <h2>3. SQL</h2>
+
+  <div class="definition">
+    <strong>SQL (Structured Query Language):</strong> Standardsprache für relationale Datenbanken, um Datenstrukturen zu definieren und Daten zu lesen bzw. zu verändern.
+    <br>
+    SQL wird vom DBMS interpretiert (z.&nbsp;B. MySQL, PostgreSQL, Oracle, SQL Server).
+  </div>
+
+  <h3>3.1 CRUD & Grundbefehle</h3>
+  <table class="term-table">
+    <tr>
+      <th>Operation</th>
+      <th>Beschreibung / SQL-Beispiel</th>
+    </tr>
+    <tr>
+      <td>Create (INSERT)</td>
+      <td>Neue Daten einfügen.<br><code>INSERT INTO Kunden (Name, Stadt) VALUES ('Anna', 'Berlin');</code></td>
+    </tr>
+    <tr>
+      <td>Read (SELECT)</td>
+      <td>Daten abfragen.<br><code>SELECT * FROM Kunden;</code></td>
+    </tr>
+    <tr>
+      <td>Update (UPDATE)</td>
+      <td>Vorhandene Daten ändern.<br><code>UPDATE Kunden SET Stadt = 'Hamburg' WHERE Name = 'Anna';</code></td>
+    </tr>
+    <tr>
+      <td>Delete (DELETE)</td>
+      <td>Daten löschen.<br><code>DELETE FROM Kunden WHERE Name = 'Anna';</code></td>
+    </tr>
+  </table>
+
+
+
+  <h3>3.2 Wichtige SQL-Klauseln</h3>
+  <table>
+    <tr>
+      <th>Klausel</th>
+      <th>Zweck</th>
+      <th>Beispiel</th>
+    </tr>
+    <tr>
+      <td>WHERE</td>
+      <td>Filtert Zeilen anhand einer Bedingung.</td>
+      <td><code>SELECT * FROM Kunden WHERE Stadt = 'Berlin';</code></td>
+    </tr>
+    <tr>
+      <td>ORDER BY</td>
+      <td>Sortiert das Ergebnis.</td>
+      <td><code>SELECT Name FROM Kunden ORDER BY Name ASC;</code></td>
+    </tr>
+    <tr>
+      <td>GROUP BY</td>
+      <td>Fasst Zeilen zu Gruppen zusammen (für Aggregatfunktionen).</td>
+      <td><code>SELECT Stadt, COUNT(*) FROM Kunden GROUP BY Stadt;</code></td>
+    </tr>
+    <tr>
+      <td>JOIN</td>
+      <td>Verknüpft Tabellen über Schlüssel (z.&nbsp;B. Kunden mit Bestellungen).</td>
+      <td><code>SELECT k.Name, b.Datum<br>FROM Kunden k<br>JOIN Bestellungen b ON k.id = b.kunden_id;</code></td>
+    </tr>
+  </table>
+
+  <h3>3.3 Einfaches Gesamtbeispiel</h3>
+  <pre><code>-- Tabelle anlegen
+CREATE TABLE Kunden (
+    id      INT PRIMARY KEY,
+    name    VARCHAR(50) NOT NULL,
+    stadt   VARCHAR(50)
+);
+
+-- Datensätze einfügen
+INSERT INTO Kunden (id, name, stadt)
+VALUES
+    (1, 'Anna',  'Berlin'),
+    (2, 'Ben',   'Hamburg'),
+    (3, 'Clara', 'Berlin');
+
+-- Alle Kunden aus Berlin alphabetisch anzeigen
+SELECT id, name, stadt
+FROM Kunden
+WHERE stadt = 'Berlin'
+ORDER BY name ASC;
+</code></pre>
+
+
+  <h3>3.4 SQL-Untersprachen</h3>
+  <table>
+    <tr>
+      <th>Untergruppe</th>
+      <th>Zweck</th>
+      <th>Typische Befehle</th>
+    </tr>
+    <tr>
+      <td>DDL (Data Definition Language)</td>
+      <td>Struktur der Datenbank definieren oder ändern.</td>
+      <td><code>CREATE TABLE</code>, <code>ALTER TABLE</code>, <code>DROP TABLE</code></td>
+    </tr>
+    <tr>
+      <td>DML (Data Manipulation Language)</td>
+      <td>Daten einfügen, ändern, löschen.</td>
+      <td><code>INSERT</code>, <code>UPDATE</code>, <code>DELETE</code></td>
+    </tr>
+    <tr>
+      <td>DQL (Data Query Language)</td>
+      <td>Daten abfragen (oft als Teil von DML gesehen).</td>
+      <td><code>SELECT</code></td>
+    </tr>
+    <tr>
+      <td>DCL (Data Control Language)</td>
+      <td>Zugriffsrechte vergeben oder entziehen.</td>
+      <td><code>GRANT</code>, <code>REVOKE</code></td>
+    </tr>
+    <tr>
+      <td>TCL (Transaction Control Language)</td>
+      <td>Transaktionen steuern.</td>
+      <td><code>COMMIT</code>, <code>ROLLBACK</code>, <code>SAVEPOINT</code></td>
+    </tr>
+  </table>
+
+  <h3>3.5 Wie man mit SQL-Abfragen arbeitet (Grundregeln)</h3>
+  <div class="section-text">
+    <p>
+      In der Praxis besteht ein großer Teil der Arbeit mit SQL aus gut formulierten
+      <code>SELECT</code>-Abfragen. Wichtig ist dabei, immer nur die Daten zu holen,
+      die man wirklich braucht: statt <code>SELECT *</code> sollte man möglichst
+      die benötigten Spalten angeben (z.&nbsp;B. <code>SELECT name, stadt FROM Kunden</code>).
+      Mit der <code>WHERE</code>-Klausel werden die Ergebnisse gefiltert, mit
+      <code>ORDER BY</code> sortiert man die Daten, und mit <code>LIMIT</code>
+      begrenzt man die Anzahl der zurückgegebenen Zeilen.
+    </p>
+
+    <ul>
+      <li><code>SELECT</code>: nur benötigte Spalten auswählen, nicht pauschal <code>*</code>.</li>
+      <li><code>WHERE</code>: Bedingungen klar formulieren, z.&nbsp;B. nach Stadt, Datum oder ID filtern.</li>
+      <li><code>ORDER BY</code>: Ergebnisse nachvollziehbar sortieren (z.&nbsp;B. nach Name oder Datum).</li>
+      <li><code>LIMIT</code>: bei Testabfragen nur wenige Zeilen anzeigen lassen.</li>
+    </ul>
+
+    <p>
+      Bei <code>UPDATE</code> und <code>DELETE</code> ist besondere Vorsicht wichtig:
+      ohne <code>WHERE</code>-Bedingung werden alle Zeilen der Tabelle geändert oder gelöscht.
+      In vielen Projekten testet man die Bedingung zuerst mit einem <code>SELECT</code>
+      und führt danach das eigentliche <code>UPDATE</code> oder <code>DELETE</code> aus.
+      Bei <code>JOIN</code>-Abfragen sollte man immer klar angeben, über welche Schlüssel
+      die Tabellen verbunden werden (Primärschlüssel/Fremdschlüssel) und Aliasse verwenden
+      (z.&nbsp;B. <code>Kunden k</code>, <code>Bestellungen b</code>), damit die Abfrage
+      lesbar und wartbar bleibt.
+    </p>
+  </div>
+
+
+  <h3>3.6 JOIN-Arten im Überblick</h3>
+  <p>
+    JOINs verbinden Daten aus mehreren Tabellen über gemeinsame Schlüssel
+    (meist Primärschlüssel/Fremdschlüssel). So können zusammengehörige Informationen
+    in einer Abfrage angezeigt werden, z.&nbsp;B. Kunden mit ihren Bestellungen.
+    Die wichtigsten JOIN-Arten sind:
+  </p>
+
+  <table>
+    <tr>
+      <th>JOIN-Typ</th>
+      <th>Beschreibung</th>
+      <th>Merksatz</th>
+    </tr>
+    <tr>
+      <td>INNER JOIN</td>
+      <td>
+        Liefert nur Datensätze, bei denen es in beiden Tabellen eine passende
+        Zeile gibt.
+      </td>
+      <td>Nur Schnittmenge von Tabelle 1 und Tabelle 2.</td>
+    </tr>
+    <tr>
+      <td>LEFT (OUTER) JOIN</td>
+      <td>
+        Liefert alle Zeilen aus der linken Tabelle und – wenn vorhanden –
+        passende Zeilen aus der rechten Tabelle. Fehlt ein Treffer, stehen
+        dort <code>NULL</code>-Werte.
+      </td>
+      <td>Alles von links, passende Daten von rechts.</td>
+    </tr>
+    <tr>
+      <td>RIGHT (OUTER) JOIN</td>
+      <td>
+        Liefert alle Zeilen aus der rechten Tabelle und – wenn vorhanden –
+        passende Zeilen aus der linken Tabelle.
+      </td>
+      <td>Alles von rechts, passende Daten von links.</td>
+    </tr>
+    <tr>
+      <td>FULL OUTER JOIN</td>
+      <td>
+        Liefert alle Zeilen aus beiden Tabellen. Wo keine passenden Zeilen
+        existieren, werden <code>NULL</code>-Werte eingesetzt.
+      </td>
+      <td>Vereinigung beider Tabellen, inkl. nicht passender Zeilen.</td>
+    </tr>
+  </table>
+
+  <p>
+    Typisches Beispiel für einen INNER JOIN:
+  </p>
+  <pre><code>SELECT k.name, b.datum, b.betrag
+FROM Kunden k
+INNER JOIN Bestellungen b
+    ON k.id = b.kunden_id;</code></pre>
+
+<!--  <div style="text-align:center; margin-top:10px; margin-bottom:10px;">
+    &lt;!&ndash; Pfad anpassen, z.B. auf joins.png oder deinen Dateinamen &ndash;&gt;
+    <img src="joins.jpg"
+         alt="Visualisierung von INNER JOIN, LEFT JOIN, RIGHT JOIN und FULL OUTER JOIN"
+         style="max-width: 100%; height: auto;">
+  </div>-->
+
+  <div class="join-diagrams">
+    <img src="https://www.w3schools.com/sql/img_inner_join.png"
+         alt="SQL INNER JOIN diagram">
+    <img src="https://www.w3schools.com/sql/img_left_join.png"
+         alt="SQL LEFT JOIN diagram">
+    <img src="https://www.w3schools.com/sql/img_right_join.png"
+         alt="SQL RIGHT JOIN diagram">
+    <img src="https://www.w3schools.com/sql/img_full_outer_join.png"
+         alt="SQL FULL OUTER JOIN diagram">
+  </div>
+
+
+
+  <!-- 4. SQL-INJECTIONS -->
+  <h2>4. SQL-Injections</h2>
+
+  <div class="definition">
+    <strong>SQL-Injection (SQLi):</strong> Angriff, bei dem Angreifer bösartige SQL-Befehle über Eingabefelder einschleusen und so die ursprüngliche Datenbankabfrage manipulieren.
+    <br>
+    Folgen: Auslesen, Ändern oder Löschen von Daten bis hin zur vollständigen Übernahme des Datenbankservers.
+  </div>
+
+  <h3>4.1 Voraussetzungen für SQL-Injection</h3>
+  <ul>
+    <li>Es existiert eine Datenbank (z.&nbsp;B. MySQL, SQL Server) und eine Anwendung, die Eingaben an die DB weiterleitet.</li>
+    <li>Eingaben des Nutzers (Loginformular, Suchfeld, Kontaktformular usw.) werden direkt in einen SQL-String eingebaut.</li>
+    <li>Es fehlt eine saubere Eingabeprüfung und Parametrisierung der Abfrage.</li>
+  </ul>
+
+  <h3>4.2 Typische Angriffsarten (kurz)</h3>
+  <ul>
+    <li><strong>Classic SQLi:</strong> z.&nbsp;B. <code>OR '1'='1'</code>, um Bedingungen zu umgehen.</li>
+    <li><strong>Union-based SQLi:</strong> Zusätzliche Daten mit <code>UNION SELECT</code> aus anderen Tabellen ausgeben.</li>
+    <li><strong>Error-based SQLi:</strong> Fehlermeldungen der Datenbank verraten Strukturinformationen.</li>
+    <li><strong>Blind / Time-based SQLi:</strong> Anwendung gibt keine Fehler aus; Angreifer nutzt Wahr/Falsch-Tests oder Zeitverzögerungen.</li>
+  </ul>
+
+  <h3>4.3 Einfaches Login-Beispiel</h3>
+  <div class="task-box">
+    <span class="task-title">Unsicheres Login-Statement</span>
+    <div class="step">
+      Unsicherer Code im Backend (Pseudo-Beispiel):<br>
+      <code>SELECT * FROM users WHERE username = '&lt;inputName&gt;'<br>
+        AND password = '&lt;inputPass&gt;';</code>
+    </div>
+    <div class="step">
+      Angreifer gibt als Passwort ein: <code>' OR '1'='1</code><br>
+      Daraus wird:<br>
+      <code>SELECT * FROM users<br>
+        WHERE username = 'admin'<br>
+        AND (password = '' OR '1'='1');</code><br>
+      Die Bedingung ist immer wahr → Login wird umgangen.
+    </div>
+  </div>
+
+  <h3>4.4 Wichtige Schutzmaßnahmen</h3>
+  <ul>
+    <li><strong>Prepared Statements / parametrisierte Abfragen:</strong> SQL-Code und Daten strikt trennen.</li>
+    <li><strong>Whitelist-Eingabevalidierung:</strong> Nur erlaubte Zeichen/Formate akzeptieren (z.&nbsp;B. nur Ziffern bei IDs).</li>
+    <li><strong>Least Privilege:</strong> DB-User der Anwendung bekommt nur minimale Rechte (kein <code>DROP TABLE</code> usw.).</li>
+    <li><strong>Sichere Fehlerbehandlung:</strong> Keine technischen SQL-Fehler an den Browser ausgeben.</li>
+    <li><strong>WAF / zusätzliche Filter:</strong> Web Application Firewalls können typische Muster blockieren.</li>
+  </ul>
+
+  <!-- 5. CSV & CSV-INJECTIONS -->
+  <h2>5. CSV und CSV-Injections</h2>
+
+  <h3>5.1 Was ist CSV?</h3>
+  <div class="definition">
+    <strong>CSV (Comma-Separated Values):</strong> Einfaches Textformat für tabellarische Daten. Werte einer Zeile sind durch ein Trennzeichen (Komma, Semikolon, Tab) getrennt.
+    <br>
+    CSV wird häufig für Exporte/Importe zwischen Systemen genutzt, z.&nbsp;B. aus Datenbanken in Excel.
+  </div>
+
+  <h3>5.2 Eigenschaften von CSV</h3>
+  <ul>
+    <li>Nur Text: alle Werte werden als Zeichenkette gespeichert.</li>
+    <li>Kein eingebautes Typensystem: Programme müssen selbst erkennen, ob ein Wert Zahl, Datum oder Text ist.</li>
+    <li>Keine Formatierungen oder Validierungen wie in Excel-Dateien.</li>
+    <li>Struktur: eine Datei entspricht einer flachen Tabelle (Zeilen/Spalten), keine verschachtelten Objekte.</li>
+    <li>Als Trennzeichen werden oft Komma (<code>,</code>), Semikolon (<code>;</code>) oder Tabulator verwendet.</li>
+    <li>Werte mit Trennzeichen oder Leerzeichen werden in Anführungszeichen gesetzt (z.&nbsp;B. <code>"Müller, Anna"</code>).</li>
+  </ul>
+
+  <h3>5.3 CSV-Beispiel</h3>
+  <pre><code>Vorname;Nachname;Alter;Stadt
+Hennes;Gelfert;67;Dresden
+Anna;Müller;25;Berlin
+</code></pre>
+
+  <h3>5.4 Vor- und Nachteile von CSV</h3>
+  <table>
+    <tr>
+      <th>Vorteile</th>
+      <th>Nachteile</th>
+    </tr>
+    <tr>
+      <td>
+        <ul>
+          <li>Sehr einfaches, textbasiertes Format.</li>
+          <li>Kann von fast allen Programmen gelesen werden.</li>
+          <li>Geringe Dateigröße.</li>
+        </ul>
+      </td>
+      <td>
+        <ul>
+          <li>Keine eingebauten Datentypen oder Validierung.</li>
+          <li>Keine Verschachtelung oder komplexe Strukturen.</li>
+          <li>Anfällig für Fehler (z.&nbsp;B. falsche Trennzeichen, Encoding-Probleme).</li>
+        </ul>
+      </td>
+    </tr>
+  </table>
+
+  <h3>5.5 CSV-Injection / Formula Injection</h3>
+  <div class="definition">
+    <strong>CSV-Injection:</strong> Sicherheitslücke, bei der Angreifer Formeln in CSV-Felder einschleusen, die von Tabellenprogrammen (z.&nbsp;B. Excel) als Code interpretiert werden.
+  </div>
+  <ul>
+    <li>Excel behandelt Zellen, die mit <code>=</code>, <code>+</code>, <code>-</code> oder <code>@</code> beginnen, als Formeln.</li>
+    <li>Wenn Benutzer-Eingaben ungeprüft in CSV exportiert werden, können bösartige Formeln entstehen.</li>
+    <li>Mögliche Folgen: Ausführen von Befehlen (z.&nbsp;B. Öffnen von Programmen), Datenmanipulation, unerwünschte Verbindungen zu externen Servern.</li>
+  </ul>
+
+  <h3>5.6 CSV-Injection – Beispiel</h3>
+  <pre><code>Name,Beschwerde
+"=cmd|' /C calc'!A0","Produkt defekt"
+</code></pre>
+  <p>Wird diese CSV direkt in einer unsicheren Excel-Version geöffnet, kann die Formel versuchen, die Rechner-App zu starten.</p>
+
+  <h3>5.7 Schutzmaßnahmen gegen CSV-Injection</h3>
+  <ul>
+    <li><strong>Eingaben escapen:</strong> Werte, die mit <code>=</code>, <code>+</code>, <code>-</code> oder <code>@</code> beginnen, z.&nbsp;B. mit einem Apostroph <code>'</code> oder Leerzeichen versehen.</li>
+    <li><strong>Input-Validierung:</strong> Nur erlaubte Zeichen in Feldern, die später exportiert werden.</li>
+    <li><strong>CSV erst prüfen:</strong> CSV-Dateien nicht direkt in Excel öffnen, sondern vorab in einem Editor kontrollieren.</li>
+    <li><strong>Aktuelle Office-Versionen nutzen:</strong> Moderne Programme warnen häufiger vor potenziell gefährlichen Formeln.</li>
+  </ul>
+
+
+
+  <hr class="section-divider">
+
+  <h1>
+    LF8 – Datenformate<br>
+    <span style="font-size:0.6em; font-weight:normal;">
+      Teil 2: 6) Datenstrukturen · 7) JSON · 8) XML · 9) REST · 10) SOAP
+    </span>
+  </h1>
+
+  <!-- 6. DATENSTRUKTUREN -->
+  <h2>6. Datenstrukturen</h2>
+
+  <div class="definition">
+    <strong>Datenstruktur:</strong> Art und Weise, wie Daten im Speicher organisiert und abgelegt werden,
+    damit typische Operationen wie Einfügen, Löschen und Suchen effizient ausgeführt werden können.
+  </div>
+
+  <h3>6.1 Grundideen</h3>
+  <ul>
+    <li>
+      Datenstrukturen legen fest, <strong>wie</strong> Daten gespeichert werden
+      (z.&nbsp;B. hintereinander im Speicher oder über Verweise/Zeiger verbunden).
+    </li>
+    <li>
+      Typische Operationen sind:
+      Einfügen (insert), Löschen (delete), Suchen (search), oft auch Durchlaufen/Iterieren.
+    </li>
+    <li>
+      Je nach Datenstruktur sind bestimmte Operationen besonders schnell
+      (z.&nbsp;B. schnelles Suchen in einer Hashtabelle, schnelles Einfügen in einer Liste).
+    </li>
+  </ul>
+
+  <h3>6.2 Statische und dynamische Datenstrukturen</h3>
+  <table>
+    <tr>
+      <th>Art</th>
+      <th>Eigenschaften</th>
+      <th>Beispiele</th>
+    </tr>
+    <tr>
+      <td>Statische Datenstrukturen</td>
+      <td>
+        Feste Größe, die einmal festgelegt und später nicht mehr geändert wird.
+        Einfach aufzubauen, aber unflexibel bei wachsenden Datenmengen.
+      </td>
+      <td>
+        <ul>
+          <li>Elementare Datentypen (int, float, char, …)</li>
+          <li>Array (Feld mit fester Länge)</li>
+          <li>Record / Struktur (z.&nbsp;B. in C: struct)</li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>Dynamische Datenstrukturen</td>
+      <td>
+        Größe kann sich zur Laufzeit ändern. Speicher wird beim Einfügen/Löschen
+        entsprechend angepasst. Flexibel, aber meist etwas komplexer in der Implementierung.
+      </td>
+      <td>
+        <ul>
+          <li>Liste (Linked List)</li>
+          <li>Queue (Warteschlange)</li>
+          <li>Stack (Stapel)</li>
+          <li>Baum (Tree)</li>
+          <li>Hashtabelle</li>
+        </ul>
+      </td>
+    </tr>
+  </table>
+
+  <h3>6.3 Wichtige Datenstrukturen – kurz erklärt</h3>
+  <table class="term-table">
+    <tr>
+      <th>Datenstruktur</th>
+      <th>Beschreibung</th>
+    </tr>
+    <tr>
+      <td>Array (Feld)</td>
+      <td>
+        Feste Anzahl von Elementen des gleichen Typs, die hintereinander im Speicher
+        liegen (z.&nbsp;B. 10 Ganzzahlen). Schnell beim direkten Zugriff mit einem Index
+        (<code>arr[5]</code>), aber die Größe kann zur Laufzeit nicht ohne Weiteres
+        geändert werden.
+      </td>
+    </tr>
+
+    <tr>
+      <td>Liste (verkettete Liste)</td>
+      <td>
+        Reihe von Elementen, die über Verweise (Pointer) miteinander verbunden sind.
+        Gut für häufiges Einfügen/Löschen in der Mitte, langsamer beim direkten Zugriff
+        auf ein bestimmtes Element (man muss von Anfang an durchlaufen).
+      </td>
+    </tr>
+    <tr>
+      <td>Stack (Stapel)</td>
+      <td>
+        LIFO-Prinzip (Last In, First Out): das zuletzt eingefügte Element wird als erstes
+        wieder entnommen. Typische Operationen: <code>push</code> (drauflegen),
+        <code>pop</code> (herunternehmen). Beispiel: Undo-Funktion in Programmen.
+      </td>
+    </tr>
+    <tr>
+      <td>Queue (Warteschlange)</td>
+      <td>
+        FIFO-Prinzip (First In, First Out): das zuerst eingefügte Element wird als erstes
+        wieder entnommen. Typische Operationen: <code>enqueue</code> (hinten anstellen),
+        <code>dequeue</code> (vorne entnehmen). Beispiel: Druckerwarteschlange.
+      </td>
+    </tr>
+    <tr>
+      <td>Baum (Tree)</td>
+      <td>
+        Hierarchische Struktur mit Wurzel (root) und Knoten (nodes). Jeder Knoten kann
+        Kindknoten besitzen. Geeignet für hierarchische Daten (z.&nbsp;B. Dateisysteme,
+        XML-Dokumente) und für schnelle Suchbäume (z.&nbsp;B. Binärbäume).
+      </td>
+    </tr>
+    <tr>
+      <td>Hashtabelle</td>
+      <td>
+        Speichert Elemente unter einem Schlüssel (Key). Ein Hash-Algorithmus berechnet
+        aus dem Key eine Position im Speicher. Sehr schnelle Zugriffe auf Werte über den Key
+        (z.&nbsp;B. Wörterbuch: Key = Wort, Wert = Übersetzung).
+      </td>
+    </tr>
+  </table>
+
+  <div class="task-box">
+    <span class="task-title">Praxisbezug</span>
+    <div class="step">
+      Arrays und Listen begegnen dir in fast jeder Programmiersprache (z.&nbsp;B. in JavaScript:
+      <code>[1, 2, 3]</code> als Array). Stacks und Queues sind wichtig für
+      Steuerung von Abläufen (z.&nbsp;B. Aufruf-Stack bei Funktionsaufrufen).
+      Bäume und Hashtabellen werden oft von Bibliotheken bereitgestellt und sind Grundlage
+      vieler Frameworks und Datenbanken.
+    </div>
+  </div>
+
+
+
+
+  <!-- 7. JSON -->
+  <h2>7. JSON</h2>
+
+  <div class="definition">
+    <strong>JSON (JavaScript Object Notation):</strong>
+    Einfaches, textbasiertes Datenformat, mit dem strukturierte Daten zwischen Systemen
+    ausgetauscht werden. JSON ist leicht für Menschen lesbar und wird von fast allen
+    Programmiersprachen unterstützt.
+  </div>
+
+  <h3>7.1 Grundidee von JSON</h3>
+  <ul>
+    <li>JSON besteht aus <strong>Schlüssel-Wert-Paaren</strong> (Key–Value).</li>
+    <li>Schlüssel sind immer Strings in Anführungszeichen, z.&nbsp;B. <code>"name"</code>.</li>
+    <li>Werte können verschiedene Typen haben (String, Zahl, Boolean, Objekt, Array, null).</li>
+    <li>JSON wird häufig für <strong>APIs</strong>, Webanwendungen und Konfigurationsdateien benutzt.</li>
+  </ul>
+
+  <h3>7.2 Aufbau: Objekte und Arrays</h3>
+  <table class="term-table">
+    <tr>
+      <th>Element</th>
+      <th>Erklärung</th>
+    </tr>
+    <tr>
+      <td>Objekt</td>
+      <td>
+        Sammlung von Schlüssel-Wert-Paaren, eingeschlossen in geschweifte Klammern
+        <code>{ ... }</code>.<br>
+        Beispiel: <code>{"name": "Anna", "alter": 25}</code>
+      </td>
+    </tr>
+    <tr>
+      <td>Array</td>
+      <td>
+        Geordnete Liste von Werten, eingeschlossen in eckige Klammern
+        <code>[ ... ]</code>.<br>
+        Beispiel: <code>["Dresden", "Leipzig", "Berlin"]</code>
+      </td>
+    </tr>
+    <tr>
+      <td>Schlüssel (Key)</td>
+      <td>
+        Beschreibt, was der Wert bedeutet, z.&nbsp;B. <code>"stadt"</code>, <code>"plz"</code>.
+      </td>
+    </tr>
+    <tr>
+      <td>Wert (Value)</td>
+      <td>
+        Die eigentliche Information, z.&nbsp;B. <code>"Dresden"</code>, <code>42</code> oder
+        ein weiteres Objekt/Array.
+      </td>
+    </tr>
+  </table>
+
+  <h3>7.3 Erlaubte Datentypen in JSON</h3>
+  <table>
+    <tr>
+      <th>Typ</th>
+      <th>Beispiel</th>
+      <th>Beschreibung</th>
+    </tr>
+    <tr>
+      <td>String</td>
+      <td><code>"Hallo"</code></td>
+      <td>Text in doppelten Anführungszeichen.</td>
+    </tr>
+    <tr>
+      <td>Zahl (Number)</td>
+      <td><code>42</code>, <code>3.14</code></td>
+      <td>Ganzzahlen oder Kommazahlen, ohne Anführungszeichen.</td>
+    </tr>
+    <tr>
+      <td>Boolean</td>
+      <td><code>true</code>, <code>false</code></td>
+      <td>Wahrheitswerte.</td>
+    </tr>
+    <tr>
+      <td>null</td>
+      <td><code>null</code></td>
+      <td>Kein Wert / unbekannt.</td>
+    </tr>
+    <tr>
+      <td>Objekt</td>
+      <td><code>{"name": "Alex"}</code></td>
+      <td>Zusammenfassung mehrerer Werte unter einem Namen.</td>
+    </tr>
+    <tr>
+      <td>Array</td>
+      <td><code>[1, 2, 3]</code></td>
+      <td>Liste von Werten (kann auch Objekte enthalten).</td>
+    </tr>
+  </table>
+
+  <h3>7.4 JSON-Beispiel: Benutzer mit Bestellungen</h3>
+  <pre><code>{
+  "id": 1,
+  "name": "Anna Müller",
+  "email": "anna.mueller@example.com",
+  "aktiv": true,
+  "bestellungen": [
+    {
+      "nummer": "B-1001",
+      "datum": "2025-12-01",
+      "betrag": 59.90
+    },
+    {
+      "nummer": "B-1002",
+      "datum": "2025-12-05",
+      "betrag": 19.99
+    }
+  ]
+}</code></pre>
+
+  <div class="task-box">
+    <span class="task-title">Was man an diesem Beispiel sehen kann</span>
+    <div class="step">
+      <ul>
+        <li>Das äußere Objekt beschreibt eine Person (id, name, email, aktiv).</li>
+        <li><code>"bestellungen"</code> ist ein Array von Objekten – jede Bestellung hat eigene Felder (nummer, datum, betrag).</li>
+        <li>Verschachtelung ist in JSON sehr üblich: Objekte können weitere Objekte und Arrays enthalten.</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>7.5 Typische Fehler und Best Practices</h3>
+  <ul>
+    <li>Alle Schlüssel müssen in doppelten Anführungszeichen stehen: <code>"name"</code>, nicht <code>name</code>.</li>
+    <li>Zwischen den Elementen stehen Kommata, aber <strong>kein</strong> Komma nach dem letzten Eintrag.</li>
+    <li>Für Text immer doppelte Anführungszeichen benutzen, nicht einfache: <code>"Text"</code>, nicht <code>'Text'</code>.</li>
+    <li>JSON ist streng: Schon ein fehlendes Komma oder Anführungszeichen macht die gesamte Struktur ungültig.</li>
+    <li>In APIs wird JSON meistens mit <code>UTF-8</code>-Encoding und dem Header <code>Content-Type: application/json</code> übertragen.</li>
+  </ul>
+
+  <h3>7.6 JSON im Vergleich zu CSV und XML (kurz)</h3>
+  <table>
+    <tr>
+      <th>Format</th>
+      <th>Stärken</th>
+      <th>Typische Nutzung</th>
+    </tr>
+    <tr>
+      <td>CSV</td>
+      <td>Sehr einfach, gut für Tabellen; leicht in Excel importierbar.</td>
+      <td>Datenexporte, einfache Tabellenstrukturen.</td>
+    </tr>
+    <tr>
+      <td>JSON</td>
+      <td>
+        Gut für verschachtelte, strukturierte Daten; direkt als Objekt in vielen Sprachen
+        nutzbar (z.&nbsp;B. JavaScript).
+      </td>
+      <td>Web-APIs, Konfigurationen, Datenaustausch zwischen Diensten.</td>
+    </tr>
+    <tr>
+      <td>XML</td>
+      <td>
+        Sehr flexibel, unterstützt komplexe Strukturen, Namespaces, Schemas (DTD/XSD).
+      </td>
+      <td>Ältere oder stark standardisierte Schnittstellen, z.&nbsp;B. SOAP, bestimmte Industrieformate.</td>
+    </tr>
+  </table>
+
+  <h3>7.7 JSON in der Praxis (Backend & Frontend)</h3>
+  <p>
+    In modernen Webanwendungen senden Backend-APIs ihre Antworten fast immer im JSON-Format.
+    Im Frontend wird die Antwort z.&nbsp;B. in JavaScript mit <code>JSON.parse()</code>
+    in ein Objekt umgewandelt und später mit <code>JSON.stringify()</code> wieder als
+    Text übertragen. Viele Frameworks (z.&nbsp;B. React, Vue, Angular) arbeiten intern
+    direkt mit JSON-Daten aus REST-APIs.
+  </p>
+
+  <h3>7.8 JSON Schema – Struktur von JSON beschreiben</h3>
+  <p>
+    JSON Schema ist ein eigenes Format (selbst wieder JSON), mit dem man die Struktur
+    von JSON-Daten beschreiben kann: welche Felder es gibt, welche Typen sie haben
+    und welche Pflicht sind. Damit können Eingaben von APIs automatisch geprüft werden.
+  </p>
+
+  <pre><code>{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Benutzer",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "age": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "email": {
+      "type": "string",
+      "format": "email"
+    }
+  },
+  "required": ["name", "email"]
+}</code></pre>
+
+  <ul>
+    <li><code>type: "object"</code> sagt, dass die Wurzel ein Objekt ist.</li>
+    <li><code>properties</code> beschreibt die erlaubten Felder (name, age, email).</li>
+    <li><code>required</code> legt fest, welche Felder verpflichtend sind.</li>
+    <li>Mit JSON Schema können Server und Clients prüfen, ob eine JSON-Nachricht
+      der erwarteten Struktur entspricht.</li>
+    <li>
+      In der Praxis liegt das JSON Schema meistens in einer eigenen Datei
+      (z.&nbsp;B. <code>user.schema.json</code>) und wird genutzt, um andere
+      JSON-Dateien (z.&nbsp;B. <code>user.json</code>) zu validieren.
+    </li>
+  </ul>
+
+
+
+  <!-- 8. XML -->
+  <h2>8. XML</h2>
+
+  <div class="definition">
+    <strong>XML (Extensible Markup Language):</strong>
+    Textbasierte Auszeichnungssprache, mit der strukturierte Daten beschrieben werden können.
+    XML ist sowohl für Menschen lesbar als auch von Maschinen gut verarbeitbar und wird
+    häufig für den plattformunabhängigen Datenaustausch verwendet.
+  </div>
+
+  <h3>8.1 Einsatz und Eigenschaften</h3>
+  <ul>
+    <li>Wird für den Datenaustausch zwischen Systemen und Anwendungen verwendet (oft über das Internet).</li>
+    <li>Ist vom <strong>W3C</strong> standardisiert und seit Ende der 1990er Jahre im Einsatz.</li>
+    <li>Struktur basiert auf <strong>Elementen</strong>, <strong>Attributen</strong> und Textinhalten.</li>
+    <li>Unterstützt verschachtelte Strukturen (hierarchische Daten, ähnlich wie Bäume).</li>
+    <li>Kann mit <strong>DTD</strong> oder <strong>XML-Schema</strong> genauer beschrieben und validiert werden.</li>
+    <li>
+      XML und SOAP gelten als ältere Technologien; in neuen Webprojekten werden sie
+      seltener eingesetzt, viele moderne APIs setzen hauptsächlich auf REST mit JSON.
+    </li>
+  </ul>
+
+  <h3>8.2 Wichtige Begriffe</h3>
+  <table class="term-table">
+    <tr>
+      <th>Begriff</th>
+      <th>Erklärung</th>
+    </tr>
+    <tr>
+      <td>Element</td>
+      <td>
+        Wichtigste Struktureinheit eines XML-Dokuments. Ein Element hat einen Namen,
+        kann Text und andere Elemente enthalten und bildet einen Knoten im Baum.
+        Beispiel: <code>&lt;stadt&gt;Dresden&lt;/stadt&gt;</code>.
+      </td>
+    </tr>
+    <tr>
+      <td>Tag</td>
+      <td>
+        Markierung für den Beginn oder das Ende eines Elements.<br>
+        Start-Tag: <code>&lt;eintrag&gt;</code><br>
+        End-Tag: <code>&lt;/eintrag&gt;</code><br>
+        Leertag (Self-Closing): <code>&lt;bild /&gt;</code>
+      </td>
+    </tr>
+    <tr>
+      <td>Attribut</td>
+      <td>
+        Zusätzliche Information direkt im Start-Tag eines Elements.<br>
+        Beispiel: <code>&lt;eintrag id="42"&gt;...&lt;/eintrag&gt;</code><br>
+        Attribute stehen immer in Anführungszeichen.
+      </td>
+    </tr>
+    <tr>
+      <td>Wurzelelement</td>
+      <td>
+        Das äußerste Element eines Dokuments. Ein XML-Dokument darf genau
+        <strong>ein</strong> Wurzelelement haben (z.&nbsp;B. <code>&lt;verzeichnis&gt;...&lt;/verzeichnis&gt;</code>).
+      </td>
+    </tr>
+    <tr>
+      <td>Parser</td>
+      <td>
+        Programm oder Bibliothek, die XML-Daten einliest und überprüft
+        (wohlgeformt/valide) und sie in eine interne Struktur (z.&nbsp;B. Baum) umwandelt.
+      </td>
+    </tr>
+  </table>
+
+  <h3>8.3 Beispiel für ein XML-Dokument</h3>
+  <pre><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;verzeichnis&gt;
+  &lt;titel&gt;Städteverzeichnis&lt;/titel&gt;
+
+  &lt;eintrag id="1"&gt;
+    &lt;stichwort&gt;Genf&lt;/stichwort&gt;
+    &lt;text&gt;Genf ist der Sitz von ...&lt;/text&gt;
+  &lt;/eintrag&gt;
+
+  &lt;eintrag id="2"&gt;
+    &lt;stichwort&gt;Köln&lt;/stichwort&gt;
+    &lt;text&gt;Köln ist eine Stadt, die ...&lt;/text&gt;
+  &lt;/eintrag&gt;
+&lt;/verzeichnis&gt;
+</code></pre>
+
+  <div class="task-box">
+    <span class="task-title">Was man an diesem Beispiel sehen kann</span>
+    <div class="step">
+      <ul>
+        <li><code>&lt;verzeichnis&gt;</code> ist das Wurzelelement und enthält alle anderen Elemente.</li>
+        <li>Jeder <code>&lt;eintrag&gt;</code> hat ein Attribut <code>id</code> und eigene Unterelemente.</li>
+        <li>Die Struktur ist hierarchisch: verzeichnis → eintrag → stichwort / text.</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>8.4 Wohlgeformtheit und Gültigkeit</h3>
+  <table>
+    <tr>
+      <th>Begriff</th>
+      <th>Bedeutung</th>
+    </tr>
+    <tr>
+      <td>Wohlgeformt (well-formed)</td>
+      <td>
+        Alle grundlegenden XML-Regeln werden eingehalten:<br>
+        – jedes Start-Tag hat ein End-Tag<br>
+        – Tags sind korrekt verschachtelt<br>
+        – Attributwerte stehen in Anführungszeichen<br>
+        – es gibt genau ein Wurzelelement
+      </td>
+    </tr>
+    <tr>
+      <td>Valid (gültig)</td>
+      <td>
+        Zusätzlich zur Wohlgeformtheit hält sich das Dokument an eine definierte Struktur,
+        z.&nbsp;B. eine DTD oder ein XML-Schema. Der Parser kann dann prüfen,
+        ob alle Elemente/Attribute der vereinbarten Grammatik entsprechen.
+      </td>
+    </tr>
+  </table>
+
+  <h3>8.5 XML im Vergleich zu JSON (kurz)</h3>
+  <ul>
+    <li>XML ist sehr flexibel und unterstützt Namespaces, Attribute und komplexe Schemas.</li>
+    <li>JSON ist kompakter und lässt sich in modernen Programmiersprachen leichter
+      direkt als Objekt nutzen.</li>
+    <li>Viele ältere oder stark standardisierte Schnittstellen (z.&nbsp;B. SOAP-Webservices)
+      verwenden XML, während neuere REST-APIs meist JSON verwenden.</li>
+  </ul>
+
+
+  <!-- 9. REST -->
+  <h2>9. REST</h2>
+
+  <div class="definition">
+    <strong>REST (Representational State Transfer):</strong>
+    Architekturstil für Webservices. REST nutzt die bestehende Web-Infrastruktur
+    (vor allem HTTP) und behandelt alles als Ressource, die über eine URL erreichbar ist.
+    Typischerweise werden Daten im JSON-Format übertragen.
+  </div>
+
+  <h3>9.1 Grundideen von REST</h3>
+  <ul>
+    <li>Jede Ressource (z.&nbsp;B. ein Benutzer, eine Bestellung) hat eine eindeutige URL.</li>
+    <li>Die HTTP-Methoden (GET, POST, PUT, DELETE, …) werden für CRUD-Operationen genutzt.</li>
+    <li>REST ist zustandslos: jeder Request enthält alle nötigen Informationen
+      (Server merkt sich keinen Sitzungszustand zwischen den Anfragen).</li>
+    <li>Antworten enthalten Daten und passende HTTP-Statuscodes (z.&nbsp;B. 200 OK, 404 Not Found).</li>
+  </ul>
+
+  <h3>9.2 HTTP-Methoden in REST (CRUD)</h3>
+  <table>
+    <tr>
+      <th>Methode</th>
+      <th>Typische Bedeutung in REST</th>
+      <th>Beispiel</th>
+    </tr>
+    <tr>
+      <td>GET</td>
+      <td>Daten lesen (Read) – verändert keine Daten auf dem Server.</td>
+      <td><code>GET /api/users</code> → alle Benutzer anzeigen.</td>
+    </tr>
+    <tr>
+      <td>POST</td>
+      <td>Neue Ressource anlegen (Create).</td>
+      <td><code>POST /api/users</code> mit JSON im Body → neuen Benutzer erstellen.</td>
+    </tr>
+    <tr>
+      <td>PUT</td>
+      <td>Ressource vollständig ersetzen/aktualisieren (Update).</td>
+      <td><code>PUT /api/users/1</code> → Benutzer mit ID 1 komplett aktualisieren.</td>
+    </tr>
+    <tr>
+      <td>PATCH</td>
+      <td>Ressource teilweise ändern (Teil-Update).</td>
+      <td><code>PATCH /api/users/1</code> → z.&nbsp;B. nur die E-Mail ändern.</td>
+    </tr>
+    <tr>
+      <td>DELETE</td>
+      <td>Ressource löschen (Delete).</td>
+      <td><code>DELETE /api/users/1</code> → Benutzer mit ID 1 löschen.</td>
+    </tr>
+  </table>
+
+  <h3>9.3 Beispiel: Einfacher REST-Request mit JSON</h3>
+  <pre><code>POST /api/users HTTP/1.1
+Host: example.com
+Content-Type: application/json
+
+{
+  "name": "Anna Müller",
+  "email": "anna.mueller@example.com"
+}</code></pre>
+
+  <div class="task-box">
+    <span class="task-title">Was passiert hier?</span>
+    <div class="step">
+      <ul>
+        <li><code>POST</code> auf <code>/api/users</code> bedeutet: neuer Benutzer soll angelegt werden.</li>
+        <li>Die Daten für den neuen Benutzer stehen als JSON im Request-Body.</li>
+        <li>Der Server antwortet z.&nbsp;B. mit <code>201 Created</code> und der neuen Benutzer-ID.</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>9.4 Typische REST-Konventionen</h3>
+  <ul>
+    <li>Plural für Ressourcen: <code>/users</code>, <code>/orders</code>, nicht <code>/getUser.php</code>.</li>
+    <li>Ressourcen per ID ansprechen: <code>/users/1</code>, <code>/orders/12345</code>.</li>
+    <li>Filterung über Query-Parameter:
+      <code>/users?city=Dresden</code>, <code>/orders?from=2025-12-01&amp;to=2025-12-31</code>.
+    </li>
+    <li>Antwort meistens im JSON-Format, z.&nbsp;B.:
+      <code>{"id": 1, "name": "Anna Müller"}</code>.
+    </li>
+    <li>HTTP-Statuscodes sinnvoll verwenden (200, 201, 400, 401, 404, 500, …).</li>
+  </ul>
+
+  <h3>9.5 REST vs. SOAP (sehr kurz)</h3>
+  <ul>
+    <li>REST ist leichtergewichtig, nutzt direkt HTTP und häufig JSON.</li>
+    <li>SOAP basiert meist auf XML und ist stärker standardisiert, aber komplexer.</li>
+    <li>Moderne Web-APIs sind meistens RESTful, ältere Unternehmenssysteme oft SOAP-basiert.</li>
+  </ul>
+
+
+  <!-- 10. SOAP -->
+  <h2>10. SOAP</h2>
+
+  <div class="definition">
+    <strong>SOAP (Simple Object Access Protocol):</strong>
+    Standardisiertes Protokoll für den Austausch von strukturierten Daten zwischen
+    Anwendungen über Netzwerke. SOAP-Nachrichten werden in der Regel als XML
+    übertragen und häufig über HTTP oder SMTP verschickt.
+  </div>
+
+  <h3>10.1 Eigenschaften von SOAP</h3>
+  <ul>
+    <li>Plattform- und sprachunabhängig: Client und Server können in unterschiedlichen Sprachen implementiert sein.</li>
+    <li>Verwendet XML als Nachrichtenformat (strikte, formelle Struktur).</li>
+    <li>Läuft meistens über HTTP, kann aber auch andere Protokolle nutzen (z.&nbsp;B. SMTP).</li>
+    <li>Unterstützt umfangreiche Standards wie WS-Security, WS-ReliableMessaging, WS-Addressing usw.</li>
+    <li>Wird häufig in Unternehmensumgebungen und bei stark standardisierten Schnittstellen eingesetzt.</li>
+  </ul>
+
+  <h3>10.2 Aufbau einer SOAP-Nachricht</h3>
+  <p>
+    Eine SOAP-Nachricht ist immer ein XML-Dokument mit einem festen Grundaufbau:
+    <code>&lt;Envelope&gt;</code>, optionalem <code>&lt;Header&gt;</code> und
+    <code>&lt;Body&gt;</code>. Fehler werden im Element <code>&lt;Fault&gt;</code>
+    gemeldet.
+  </p>
+
+  <table>
+    <tr>
+      <th>Element</th>
+      <th>Funktion</th>
+    </tr>
+    <tr>
+      <td>Envelope</td>
+      <td>Umschließt die gesamte SOAP-Nachricht. Oberstes Element.</td>
+    </tr>
+    <tr>
+      <td>Header (optional)</td>
+      <td>Metadaten, z.&nbsp;B. Authentifizierung, Transaktionsinfos, Routing.</td>
+    </tr>
+    <tr>
+      <td>Body</td>
+      <td>Enthält den eigentlichen Inhalt (Methodenaufruf, Antwortdaten).</td>
+    </tr>
+    <tr>
+      <td>Fault (optional)</td>
+      <td>Beschreibt Fehler, wenn etwas schiefgeht (Fehlercode, Beschreibung).</td>
+    </tr>
+  </table>
+
+  <h3>10.3 Beispiel für eine SOAP-Request</h3>
+  <pre><code>&lt;soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"&gt;
+  &lt;soap:Header/&gt;
+
+  &lt;soap:Body&gt;
+    &lt;GetCustomer xmlns="http://example.com/customers"&gt;
+      &lt;CustomerID&gt;123&lt;/CustomerID&gt;
+    &lt;/GetCustomer&gt;
+  &lt;/soap:Body&gt;
+&lt;/soap:Envelope&gt;
+</code></pre>
+
+  <div class="task-box">
+    <span class="task-title">Was passiert in diesem Beispiel?</span>
+    <div class="step">
+      <ul>
+        <li>Im <code>Body</code> wird die Operation <code>GetCustomer</code> aufgerufen.</li>
+        <li>Der Parameter <code>CustomerID</code> hat den Wert <code>123</code>.</li>
+        <li>Der Server wertet die SOAP-Nachricht aus und antwortet mit einer eigenen
+          SOAP-Response, ebenfalls als XML.</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>10.4 SOAP vs. REST</h3>
+  <table>
+    <tr>
+      <th>Aspekt</th>
+      <th>SOAP</th>
+      <th>REST</th>
+    </tr>
+    <tr>
+      <td>Datenformat</td>
+      <td>Immer XML (strukturierte, schwerere Nachrichten).</td>
+      <td>Meist JSON, kann aber auch XML o.&nbsp;a. Formate nutzen.</td>
+    </tr>
+    <tr>
+      <td>Komplexität</td>
+      <td>Komplexer, viele zusätzliche Standards (WS-*) möglich.</td>
+      <td>Leichtergewichtig, nutzt direkt HTTP-Methoden.</td>
+    </tr>
+    <tr>
+      <td>Verwendung</td>
+      <td>Häufig in Enterprise-Umgebungen, Legacy-Systemen, formellen Standards.</td>
+      <td>Typisch für moderne Web- und Mobile-APIs.</td>
+    </tr>
+    <tr>
+      <td>Vertrag / Beschreibung</td>
+      <td>Meist mit WSDL (Web Services Description Language) beschrieben.</td>
+      <td>Oft OpenAPI/Swagger oder einfache Dokumentation.</td>
+    </tr>
+  </table>
+
+  <h3>10.5 Wann SOAP, wann REST?</h3>
+  <ul>
+    <li>SOAP eignet sich, wenn formelle Verträge, komplexe Sicherheit und Transaktionen wichtig sind.</li>
+    <li>REST eignet sich, wenn einfache, schnelle und flexible Web-APIs benötigt werden.</li>
+    <li>Viele neue Systeme setzen auf REST, aber in großen Unternehmen sind SOAP-Services
+      immer noch weit verbreitet.</li>
+    <li>
+      XML und SOAP gelten als ältere Technologien; in neuen Webprojekten werden sie
+      seltener eingesetzt, viele moderne APIs setzen hauptsächlich auf REST mit JSON.
+    </li>
+  </ul>
+
+
+
+
+</div>
+
+</body>
+</html>
